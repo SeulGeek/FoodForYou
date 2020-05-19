@@ -6,15 +6,9 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_inquiry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="INQUIRY" />
-
-    <TextView
-        android:id="@+id/tv_main_recipe_category"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_main_category"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
