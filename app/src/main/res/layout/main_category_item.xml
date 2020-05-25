@@ -17,7 +17,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:padding="5dp"
-                android:src="@drawable/main_category_image" />
+                android:src="@drawable/main_category_image"
+                android:contentDescription="@string/recipe_category_image"/>
 
             <TextView
                 android:id="@+id/tv_main_recipe_category"
@@ -25,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:text="맛있는 식단"
+                android:text="@string/yummy_recipe"
                 android:textSize="20sp"/>
 
         </LinearLayout>

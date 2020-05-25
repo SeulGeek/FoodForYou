@@ -1,12 +1,9 @@
 package com.example.foodforyou;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,14 +15,10 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
     private MainCategoryAdapter adapter;
     private ArrayList<String> mainCategoryTitle;
 
@@ -40,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        recyclerView = findViewById(R.id.recycler_view_main_category);
+
+        RecyclerView recyclerView;recyclerView = findViewById(R.id.recycler_view_main_category);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -73,6 +67,17 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }).start();
+
+        adapter.setOnItemClickListener(new OnMainCategoryClickListener() {
+            @Override
+            public void onItemClick(MainCategoryAdapter.ViewHolder holder, View view, int position) {
+                //TODO: item에 따라 각 상세페이지 내용이 달라지게 만들기
+//                MainCategory item = adapter.getItem(position);
+//                Toast.makeText(getApplicationContext(), "아이템 선택됨:" + item.getDietSeName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), RecommendDietListActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
