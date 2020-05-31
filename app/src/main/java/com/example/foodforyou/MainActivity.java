@@ -27,6 +27,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MainCategoryAdapter adapter;
+    private ArrayList<String> dietSeCode;
     private ArrayList<String> mainCategoryTitle;
 
     @Override
@@ -58,9 +59,13 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i< mainCategoryTitle.size(); i++) {
+                        for (int i = 0; i< dietSeCode.size(); i++) {
                             // 각 List의 값들을 MainCategory 객체에 set 해줍니다
                             MainCategory mainCategoryData = new MainCategory();
+                            mainCategoryData.setDietSeCode(dietSeCode.get(i));
+
+                            Log.i("dietSecode: ", dietSeCode.get(i));
+
                             mainCategoryData.setDietSeName(mainCategoryTitle.get(i));
 
                             // 각 값들이 들어간 data를 adapter에 추가합니다.
@@ -78,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void getMainCategoryResponse() {
+        dietSeCode = new ArrayList<>();
         mainCategoryTitle = new ArrayList<>();
         String apiKey = ""; //TODO: set your api key
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/mainCategoryList?apiKey=" + apiKey;
@@ -96,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
                     case XmlPullParser.START_TAG:
                         if (xpp.getName().equals("item")) { // fist research result
 
+                        } else if (xpp.getName().equals("dietSeCode")) {
+                            xpp.next();
+                            dietSeCode.add(xpp.getText());
                         } else if (xpp.getName().equals("dietSeName")) {
                             xpp.next();
                             mainCategoryTitle.add(xpp.getText());
