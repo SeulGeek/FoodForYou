@@ -1,4 +1,4 @@
-package com.example.foodforyou;
+package com.example.foodforyou.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodforyou.R;
 import com.example.foodforyou.model.MainCategory;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -73,9 +74,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new OnMainCategoryClickListener() {
             @Override
             public void onItemClick(MainCategoryAdapter.ViewHolder holder, View view, int position) {
-                //TODO: item에 따라 각 상세페이지 내용이 달라지게 만들기
-//                MainCategory item = adapter.getItem(position);
-//                Toast.makeText(getApplicationContext(), "아이템 선택됨:" + item.getDietSeName(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), RecommendDietListActivity.class);
                 intent.putExtra("dietSeCode", dietSeCode.get(position));
                 startActivity(intent);

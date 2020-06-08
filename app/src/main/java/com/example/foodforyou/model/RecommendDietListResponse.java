@@ -4,19 +4,19 @@ import java.util.Date;
 
 // Response API
 public class RecommendDietListResponse {
-    int cntntsNo;
-    String dietNm;
-    String fdNm;
-    String cntntsSj;
-    String cntntsChargerEsntlNm;
-    Date registDt;
-    int cntntsRdcnt;
-    int rtnFileSeCode;
-    int rtnFileSn;
-    int rtnStreFileNu;
-    String rtnImageDc;
-    String rtnThumbFileNm;
-    int rtnImgSeCode;
+    private int cntntsNo; // 컨텐츠 번호
+    private String dietNm; // 식단 명
+    private String fdNm; // 음식 명
+    private String cntntsSj; // 컨텐츠 제목
+    private String cntntsChargerEsntlNm; // 담당자 명
+    private Date registDt; // 등록 일시
+    private int cntntsRdcnt; // 조회수
+    private int rtnFileSeCode; // 파일 구분 코드
+    private int rtnFileSn; // 파일 순번
+    private int rtnStreFileNm; // 원본 파일명
+    private String rtnImageDc; // 이미지  설명
+    private String rtnThumbFileNm; // 썸네일 파일명
+    private int rtnImgSeCode; // 이미지 구분 코드
 
     public int getCntntsNo() {
         return cntntsNo;
@@ -90,12 +90,12 @@ public class RecommendDietListResponse {
         this.rtnFileSn = rtnFileSn;
     }
 
-    public int getRtnStreFileNu() {
-        return rtnStreFileNu;
+    public int getRtnStreFileNm() {
+        return rtnStreFileNm;
     }
 
-    public void setRtnStreFileNu(int rtnStreFileNu) {
-        this.rtnStreFileNu = rtnStreFileNu;
+    public void setRtnStreFileNm(int rtnStreFileNm) {
+        this.rtnStreFileNm = rtnStreFileNm;
     }
 
     public String getRtnImageDc() {
