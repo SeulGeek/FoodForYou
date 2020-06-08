@@ -1,4 +1,4 @@
-package com.example.foodforyou;
+package com.example.foodforyou.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodforyou.R;
 import com.example.foodforyou.model.RecommendDietListResponse;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -50,6 +52,7 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
         }
 
         void onBind(RecommendDietListResponse data) {
+            Picasso.get().load(data.getRtnImageDc()).into(imageView);
             dietName.setText(data.getDietNm());
         }
     }

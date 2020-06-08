@@ -1,4 +1,4 @@
-package com.example.foodforyou;
+package com.example.foodforyou.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodforyou.R;
 import com.example.foodforyou.model.RecommendDietListResponse;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -23,6 +24,7 @@ public class RecommendDietListActivity extends AppCompatActivity {
     private RecommendDietListAdapter adapter;
     private String dietSeCode;
     private ArrayList<String> dietName;
+    private ArrayList<String> imgLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +62,12 @@ public class RecommendDietListActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         for (int i = 0; i < dietName.size(); i++) {
-                            RecommendDietListResponse recommendDietListResponse = new RecommendDietListResponse();
-                            recommendDietListResponse.setDietNm(dietName.get(i));
+                            RecommendDietListResponse response = new RecommendDietListResponse();
+                            response.setDietNm(dietName.get(i));
+                            response.setRtnImageDc(imgLink.get(i));
 
                             Log.d("Recommend Text: ", dietName.get(i));
-                            adapter.addItem(recommendDietListResponse);
+                            adapter.addItem(response);
                         }
                         adapter.notifyDataSetChanged();
                     }
@@ -75,9 +78,10 @@ public class RecommendDietListActivity extends AppCompatActivity {
 
     private void getRecommendDietListResponse() {
         dietName = new ArrayList<>();
+        imgLink = new ArrayList<>();
         String apiKey = ""; //TODO: set your api key
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/recomendDietList?apiKey=" + apiKey
-                + "&dietSeCode=" + dietSeCode + "&pageNm=1&numOfRows=3";
+                + "&dietSeCode=" + dietSeCode ;
 
         try {
             URL url = new URL(apiUrl);
@@ -99,8 +103,34 @@ public class RecommendDietListActivity extends AppCompatActivity {
 
                 } else if (eventType == XmlPullParser.TEXT) {
                     String text = xpp.getText() ;
-                    if (isItemType && startTag.equals("cntntsSj")) {
-                        dietName.add(xpp.getText());
+                    if (isItemType) {
+                        if (startTag.equals("cntntsNo")) {
+
+                        } else if (startTag.equals("dietNm")) {
+                            dietName.add(xpp.getText());
+                        } else if (startTag.equals("fdNm")) {
+
+                        } else if (startTag.equals("cntntsSj")) {
+
+                        } else if (startTag.equals("cntntsChargerEsntlNm")) {
+
+                        } else if (startTag.equals("registDt")) {
+
+                        } else if (startTag.equals("cntntsRdcnt")) {
+
+                        } else if (startTag.equals("rtnFileSeCode")) {
+
+                        } else if (startTag.equals("rtnFileSn")) {
+
+                        } else if (startTag.equals("rtnStreFileNu")) {
+
+                        } else if (startTag.equals("rtnImageDc")) {
+                            imgLink.add(xpp.getText());
+                        } else if (startTag.equals("rtnThumbFileNm")) {
+
+                        } else if (startTag.equals("rtnImgSeCode")) {
+
+                        }
                     }
                 } else if (eventType == XmlPullParser.END_TAG) {
                     String endTag = xpp.getName() ;
@@ -108,7 +138,6 @@ public class RecommendDietListActivity extends AppCompatActivity {
                         startTag = "";
                         isItemType = false;
                     }
-
                 }
                 eventType = xpp.next();
             }

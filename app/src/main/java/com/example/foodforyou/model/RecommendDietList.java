@@ -3,12 +3,12 @@ package com.example.foodforyou.model;
 // Request API
 public class RecommendDietList {
     // required
-    String apiKey;
-    String dietSeCode;
+    private String apiKey; // 발급받은 Open API 인증키
+    private String dietSeCode; // 식단 구분코드
 
     //optional
-    int pageNo;
-    int numOfRows;
+    private int pageNo; // 조회할 페이지 번호
+    private int numOfRows; // 한 페이지에 제공할 건수
 
     public String getApiKey() {
         return apiKey;
