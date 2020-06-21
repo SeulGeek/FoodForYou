@@ -3,6 +3,7 @@ package com.example.foodforyou.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,12 +25,13 @@ public class RecommendDietListActivity extends AppCompatActivity {
     private RecommendDietListAdapter adapter;
     private String dietSeCode;
     private ArrayList<String> dietName;
+    private ArrayList<String> cntntsNo;
     private ArrayList<String> imgLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recommend_diet_list);
+        setContentView(R.layout.activity_main);
 
         init();
 
@@ -43,7 +45,7 @@ public class RecommendDietListActivity extends AppCompatActivity {
             Log.d("dietSeCode:", dietSeCode);
         }
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_recommend_diet_list);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_main_category);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -74,14 +76,24 @@ public class RecommendDietListActivity extends AppCompatActivity {
                 });
             }
         }).start();
+
+        adapter.setOnItemClickListener(new OnDietClickListener() {
+            @Override
+            public void onDietItemClick(RecommendDietListAdapter.ViewHolder holder, View view, int position) {
+                Intent intent = new Intent(getApplicationContext(), RecommendDietFoodListActivity.class);
+                intent.putExtra("cntntsNo", cntntsNo.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     private void getRecommendDietListResponse() {
         dietName = new ArrayList<>();
+        cntntsNo = new ArrayList<>();
         imgLink = new ArrayList<>();
         String apiKey = ""; //TODO: set your api key
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/recomendDietList?apiKey=" + apiKey
-                + "&dietSeCode=" + dietSeCode ;
+                + "&dietSeCode=" + dietSeCode;
 
         try {
             URL url = new URL(apiUrl);
@@ -98,14 +110,14 @@ public class RecommendDietListActivity extends AppCompatActivity {
                 if (eventType == XmlPullParser.START_DOCUMENT) {
                     // XML 데이터 시작
                 } else if (eventType == XmlPullParser.START_TAG) {
-                    startTag = xpp.getName() ;
+                    startTag = xpp.getName();
                     if (startTag.equals("item")) isItemType = true;
 
                 } else if (eventType == XmlPullParser.TEXT) {
                     String text = xpp.getText() ;
                     if (isItemType) {
                         if (startTag.equals("cntntsNo")) {
-
+                            cntntsNo.add(xpp.getText());
                         } else if (startTag.equals("dietNm")) {
                             dietName.add(xpp.getText());
                         } else if (startTag.equals("fdNm")) {

@@ -15,14 +15,17 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDietListAdapter.ViewHolder> {
+public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDietListAdapter.ViewHolder>
+        implements OnDietClickListener{
+
     private ArrayList<RecommendDietListResponse> response = new ArrayList<>();
+    private OnDietClickListener listener;
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommend_diet_list_item, parent, false);
-        return new ViewHolder(view) ;
+        return new ViewHolder(view, listener) ;
     }
 
     @Override
@@ -39,16 +42,37 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
         response.add(data);
     }
 
+    public void setOnItemClickListener(OnDietClickListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onDietItemClick(ViewHolder holder, View view, int position) {
+        if (listener != null) {
+            listener.onDietItemClick(holder, view, position);
+        }
+    }
+
     //ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView dietName;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, final OnDietClickListener listener) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView_recommend_diet);
             dietName = itemView.findViewById(R.id.tv_recommend_diet_category);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (listener != null) {
+                        listener.onDietItemClick(ViewHolder.this, view, position);
+                    }
+                }
+            });
         }
 
         void onBind(RecommendDietListResponse data) {
