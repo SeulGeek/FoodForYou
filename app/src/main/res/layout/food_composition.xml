@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/calorie_image_view"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:src="@drawable/ic_calorie_icon"/>
+
+        <TextView
+            android:id="@+id/calorie_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="열량"
+            android:textColor="#aeaeae"/>
+
+        <TextView
+            android:id="@+id/calorie_info_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="678Kcal"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="39dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/carbohydrates_image_view"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:src="@drawable/ic_carbohydrates_icon"/>
+
+        <TextView
+            android:id="@+id/carbohydrates_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="당질"
+            android:textColor="#aeaeae"/>
+
+        <TextView
+            android:id="@+id/carbohydrates_info_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="104Kcal"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="41dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/protein_image_view"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:src="@drawable/ic_protein_icon"/>
+
+        <TextView
+            android:id="@+id/protein_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="단백질"
+            android:textColor="#aeaeae"/>
+
+        <TextView
+            android:id="@+id/protein_info_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="104Kcal"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="41dp"
+        android:layout_marginEnd="27dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/lipid_image_view"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:src="@drawable/ic_lipid_icon"/>
+
+        <TextView
+            android:id="@+id/lipid_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="지질"
+            android:textColor="#aeaeae"/>
+
+        <TextView
+            android:id="@+id/lipid_info_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="104Kcal"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+</LinearLayout>

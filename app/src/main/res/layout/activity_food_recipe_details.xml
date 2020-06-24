@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.FoodRecipeDetails"
+    android:layout_marginStart="27dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/food_image_view"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/main_category_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/category_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="30dp"
+            android:text="카테고리명"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/food_image_view"/>
+
+        <TextView
+            android:id="@+id/food_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="음식명"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="13dp"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toRightOf="@+id/food_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/category_name_text_view"/>
+
+        <!--식품 구성 정보-->
+        <include
+            android:id="@+id/food_composition_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/food_composition"
+            app:layout_constraintTop_toBottomOf="@+id/food_image_view" />
+
+        <!--recipe-->
+        <TextView
+            android:id="@+id/food_material_title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="음식 재료"
+            app:layout_constraintTop_toBottomOf="@+id/food_composition_layout"/>
+
+        <TextView
+            android:id="@+id/food_material_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="27dp"
+            android:text="감자 37(g), 간장 1.7(g), 물엿 1(g), 파 0.8(g), 콩기름 0.7(g), 깨 0.4(g), 마늘 0.4(g), 설탕 0.3(g) "
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/food_material_title_text_view" />
+
+        <TextView
+            android:id="@+id/recipe_order_title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="27dp"
+            android:layout_marginTop="20dp"
+            android:text="조리 순서"
+            app:layout_constraintTop_toBottomOf="@+id/food_material_text_view"/>
+
+        <TextView
+            android:id="@+id/recipe_order_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="27dp"
+            android:text=" 1. 양파과 당근, 파는 잘게썰어 준비한다. \n 2. 달걀을 풀어 양파와 당근, 파를 함께 섞는다. \n 3. 소금을 넣어 간한다. \n 4. 후라이팬에 기름을 두르고 달걀물을 부어 익기전에 둥글게 만다. "
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_order_title_text_view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

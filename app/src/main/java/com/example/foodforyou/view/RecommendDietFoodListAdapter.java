@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,16 @@ import java.util.ArrayList;
 public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<RecommendDietFoodListAdapter.ViewHolder> {
 
     private ArrayList<RecommendDietDetail> response = new ArrayList<>();
+
+    public interface OnFoodItemClickListener {
+        void onFoodItemClick(View view, int position);
+    }
+
+    private OnFoodItemClickListener mListener = null;
+
+    public void setOnFoodItemClickListener(OnFoodItemClickListener listener) {
+        this.mListener = listener;
+    }
 
     @NonNull
     @Override
@@ -41,15 +52,26 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+        LinearLayout foodListLayout;
         ImageView foodImageView;
         TextView foodName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            foodListLayout = itemView.findViewById(R.id.food_list_layout);
             foodImageView = itemView.findViewById(R.id.food_image_view);
             foodName = itemView.findViewById(R.id.food_name_text_view);
 
+            foodListLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (mListener != null) {
+                        mListener.onFoodItemClick(v, position);
+                    }
+                }
+            });
         }
 
         void onBind(RecommendDietDetail data) {

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +32,7 @@ public class RecommendDietListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.recommend_diet_list);
 
         init();
 
@@ -45,9 +46,9 @@ public class RecommendDietListActivity extends AppCompatActivity {
             Log.d("dietSeCode:", dietSeCode);
         }
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_main_category);
+        RecyclerView recyclerView = findViewById(R.id.diet_list_category_recycler_view);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new RecommendDietListAdapter();
