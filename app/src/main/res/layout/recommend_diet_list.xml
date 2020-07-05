@@ -4,10 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginStart="27dp"
+    android:layout_marginEnd="13dp">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_main_category"
+        android:id="@+id/diet_list_category_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

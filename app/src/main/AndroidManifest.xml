@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.FoodRecipeDetails"></activity>
+        <activity android:name=".view.RecommendDietFoodListActivity" />
+        <activity android:name=".view.RecommendDietListActivity" />
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

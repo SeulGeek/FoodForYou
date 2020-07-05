@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginTop="27dp"
+    android:layout_marginEnd="13dp">
+
+        <ImageView
+            android:id="@+id/imageView_recommend_diet"
+            android:layout_width="150dp"
+            android:layout_height="110dp"
+            android:src="@drawable/diet_list_image"
+            android:contentDescription="@string/recipe_category_image"/>
+
+        <TextView
+            android:id="@+id/tv_recommend_diet_category"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="김치찌개, 차돌밥"
+            android:textColor="#000000"
+            android:textSize="13sp" />
+
+</LinearLayout>
