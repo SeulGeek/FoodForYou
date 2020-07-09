@@ -37,7 +37,7 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.recommend_diet_food_list);
 
         init();
 
@@ -48,7 +48,7 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         cntntsNo = intent.getStringExtra("cntntsNo");
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_main_category);
+        RecyclerView recyclerView = findViewById(R.id.diet_food_list_category_recycler_view);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -162,6 +162,5 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

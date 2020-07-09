@@ -3,10 +3,9 @@ package com.example.foodforyou.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodforyou.R;
 import com.example.foodforyou.model.MainCategory;
@@ -20,9 +19,17 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private MainCategoryAdapter adapter;
+
+    //TODO: change variable name to clarify
+    private LinearLayout mainCategoryLayout1;
+    private LinearLayout mainCategoryLayout2;
+    private LinearLayout mainCategoryLayout3;
+    private LinearLayout mainCategoryLayout4;
+    private LinearLayout mainCategoryLayout5;
+
     private ArrayList<String> dietSeCode;
-    private ArrayList<String> mainCategoryTitle;
+
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +42,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-
-        RecyclerView recyclerView;recyclerView = findViewById(R.id.recycler_view_main_category);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new MainCategoryAdapter();
-        recyclerView.setAdapter(adapter);
+        mainCategoryLayout1 = findViewById(R.id.main_category_layout_1);
+        mainCategoryLayout2 = findViewById(R.id.main_category_layout_2);
+        mainCategoryLayout3 = findViewById(R.id.main_category_layout_3);
+        mainCategoryLayout4 = findViewById(R.id.main_category_layout_4);
+        mainCategoryLayout5 = findViewById(R.id.main_category_layout_5);
     }
 
     private void getMainCategoryTitleResponse() {
@@ -58,34 +62,18 @@ public class MainActivity extends AppCompatActivity {
                             // 각 List의 값들을 MainCategory 객체에 set 해줍니다
                             MainCategory mainCategoryData = new MainCategory();
                             mainCategoryData.setDietSeCode(dietSeCode.get(i));
-                            mainCategoryData.setDietSeName(mainCategoryTitle.get(i));
-
-                            // 각 값들이 들어간 data를 adapter에 추가합니다.
-                            adapter.addItem(mainCategoryData);
                         }
-
-                        // adapter의 값이 변경되었다는 것을 알려줍니다.
-                        adapter.notifyDataSetChanged();
                     }
                 });
             }
         }).start();
 
-        adapter.setOnItemClickListener(new OnMainCategoryClickListener() {
-            @Override
-            public void onItemClick(MainCategoryAdapter.ViewHolder holder, View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), RecommendDietListActivity.class);
-                intent.putExtra("dietSeCode", dietSeCode.get(position));
-                startActivity(intent);
-            }
-        });
-
+        onClickCategory();
     }
-
 
     private void getMainCategoryResponse() {
         dietSeCode = new ArrayList<>();
-        mainCategoryTitle = new ArrayList<>();
+
         String apiKey = ""; //TODO: set your api key
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/mainCategoryList?apiKey=" + apiKey;
 
@@ -106,9 +94,6 @@ public class MainActivity extends AppCompatActivity {
                         } else if (xpp.getName().equals("dietSeCode")) {
                             xpp.next();
                             dietSeCode.add(xpp.getText());
-                        } else if (xpp.getName().equals("dietSeName")) {
-                            xpp.next();
-                            mainCategoryTitle.add(xpp.getText());
                         }
                         break;
                 }
@@ -117,5 +102,49 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void onClickCategory() {
+        intent = new Intent(getApplicationContext(), RecommendDietListActivity.class);
+
+        mainCategoryLayout1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("dietSeCode", dietSeCode.get(0));
+                startActivity(intent);
+            }
+        });
+
+        mainCategoryLayout2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("dietSeCode", dietSeCode.get(1));
+                startActivity(intent);
+            }
+        });
+
+        mainCategoryLayout3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("dietSeCode", dietSeCode.get(2));
+                startActivity(intent);
+            }
+        });
+
+        mainCategoryLayout4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("dietSeCode", dietSeCode.get(3));
+                startActivity(intent);
+            }
+        });
+
+        mainCategoryLayout5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("dietSeCode", dietSeCode.get(4));
+                startActivity(intent);
+            }
+        });
     }
 }
