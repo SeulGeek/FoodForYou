@@ -100,9 +100,10 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
     }
 
     private void getRecommendDietFoodListResponse() {
+        String apiKey = getString(R.string.recommended_food_recipe_api_key);
+
         foodName = new ArrayList<>();
         foodImage = new ArrayList<>();
-        String apiKey = ""; //TODO: set your api key
         materialInfo = new ArrayList<>();
         recipeOrder = new ArrayList<>();
         calorieInfo = new ArrayList<>();
