@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private void getMainCategoryResponse() {
         dietSeCode = new ArrayList<>();
 
-        String apiKey = ""; //TODO: set your api key
+        String apiKey = getString(R.string.recommended_food_recipe_api_key);
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/mainCategoryList?apiKey=" + apiKey;
 
         try{

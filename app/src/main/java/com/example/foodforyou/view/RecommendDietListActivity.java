@@ -91,7 +91,7 @@ public class RecommendDietListActivity extends AppCompatActivity {
         dietName = new ArrayList<>();
         cntntsNo = new ArrayList<>();
         imgLink = new ArrayList<>();
-        String apiKey = ""; //TODO: set your api key
+        String apiKey = getString(R.string.recommended_food_recipe_api_key);
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/recomendDietList?apiKey=" + apiKey
                 + "&dietSeCode=" + dietSeCode;
 

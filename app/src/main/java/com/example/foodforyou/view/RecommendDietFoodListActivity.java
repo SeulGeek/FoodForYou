@@ -100,9 +100,10 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
     }
 
     private void getRecommendDietFoodListResponse() {
+        String apiKey = getString(R.string.recommended_food_recipe_api_key);
+
         foodName = new ArrayList<>();
         foodImage = new ArrayList<>();
-        String apiKey = ""; //TODO: set your api key
         materialInfo = new ArrayList<>();
         recipeOrder = new ArrayList<>();
         calorieInfo = new ArrayList<>();
@@ -122,40 +123,40 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
             xpp.setInput(new InputStreamReader(inputStream, "UTF-8"));
 
             int eventType = xpp.getEventType();
-            String startTag = "";
-            boolean isItemType = false;
+            String tag = "";
+
             while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_DOCUMENT) {
-                    // XML data start
-                } else if (eventType == XmlPullParser.START_TAG) {
-                    startTag = xpp.getName();
-                    if (startTag.equals("item")) isItemType = true;
-                } else if (eventType == XmlPullParser.TEXT) {
-                    if (isItemType) {
-                        if (startTag.equals("fdNm")) {
+                tag = xpp.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_TAG:
+                        if (tag.equals("fdNm")) {
+                            xpp.next();
                             foodName.add(xpp.getText());
-                        } else if (startTag.equals("rtnImageDc")) {
+                        } else if (tag.equals("rtnImageDc")) {
+                            xpp.next();
                             foodImage.add(xpp.getText());
-                        } else if (startTag.equals("matrlInfo")) {
+                        } else if (tag.equals("matrlInfo")) {
+                            xpp.next();
                             materialInfo.add(xpp.getText());
-                        } else if (startTag.equals("ckngMthInfo")) {
+                        } else if (tag.equals("ckngMthInfo")) {
+                            xpp.next();
                             recipeOrder.add(xpp.getText());
-                        } else if (startTag.equals("clriInfo")) {
+                        } else if (tag.equals("clriInfo")) {
+                            xpp.next();
                             calorieInfo.add(xpp.getText());
-                        } else if (startTag.equals("crbhInfo")) {
+                        } else if (tag.equals("crbhInfo")) {
+                            xpp.next();
                             carbohydratesInfo.add(xpp.getText());
-                        } else if (startTag.equals("protInfo")) {
+                        } else if (tag.equals("protInfo")) {
+                            xpp.next();
                             proteinInfo.add(xpp.getText());
-                        } else if (startTag.equals("ntrfsInfo")) {
+                        } else if (tag.equals("ntrfsInfo")) {
+                            xpp.next();
                             lipidInfo.add(xpp.getText());
                         }
-                    }
-                } else if (eventType == XmlPullParser.END_TAG) {
-                    String endTag = xpp.getName();
-                    if (endTag.equals("item")) {
-                        startTag = "";
-                        isItemType = false;
-                    }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
                 }
                 eventType = xpp.next();
             }
