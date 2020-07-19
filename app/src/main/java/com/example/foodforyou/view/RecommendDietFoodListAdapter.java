@@ -1,5 +1,6 @@
 package com.example.foodforyou.view;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,12 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
         }
 
         void onBind(RecommendDietDetail data) {
-            Picasso.get().load(data.getRtnImageDc()).into(foodImageView);
+            if (!TextUtils.isEmpty(data.getRtnImageDc())) {
+                Picasso.get().load(data.getRtnImageDc()).into(foodImageView);
+            } else {
+                foodImageView.setImageResource(R.drawable.img_none); //TODO: change svg image
+            }
+
             foodName.setText(data.getFdNm());
         }
     }
