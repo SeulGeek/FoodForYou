@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class RecommendDietFoodListActivity extends AppCompatActivity {
 
     private RecommendDietFoodListAdapter adapter;
+    private String mainCategoryName;
     private String cntntsNo;
     private ArrayList<String> foodName;
     private ArrayList<String> foodImage;
@@ -46,6 +47,7 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
 
     public void init() {
         Intent intent = getIntent();
+        mainCategoryName = intent.getStringExtra("mainCategoryName");
         cntntsNo = intent.getStringExtra("cntntsNo");
 
         RecyclerView recyclerView = findViewById(R.id.diet_food_list_category_recycler_view);
@@ -72,7 +74,7 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
                             response.setFdNm(foodName.get(i));
                             response.setRtnImageDc(foodImage.get(i));
 
-                            adapter.addItem(response);
+                            adapter.addItem(response, mainCategoryName);
                         }
                         adapter.notifyDataSetChanged();
                     }
@@ -84,6 +86,7 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
             @Override
             public void onFoodItemClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), FoodRecipeDetails.class);
+                intent.putExtra("mainCategoryName", mainCategoryName);
                 intent.putExtra("foodName", foodName.get(position));
                 intent.putExtra("foodImage", foodImage.get(position));
                 intent.putExtra("materialInfo", materialInfo.get(position));

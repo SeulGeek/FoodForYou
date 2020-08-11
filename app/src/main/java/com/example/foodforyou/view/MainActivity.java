@@ -20,12 +20,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    //TODO: change variable name to clarify
-    private LinearLayout mainCategoryLayout1;
-    private LinearLayout mainCategoryLayout2;
-    private LinearLayout mainCategoryLayout3;
-    private LinearLayout mainCategoryLayout4;
-    private LinearLayout mainCategoryLayout5;
+    private LinearLayout studyDietMainCategory;
+    private LinearLayout healthyDietMainCategory;
+    private LinearLayout homeMealMainCategory;
+    private LinearLayout eventDietMainCategory;
+    private LinearLayout refreshDietMainCategory;
 
     private ArrayList<String> dietSeCode;
 
@@ -42,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        mainCategoryLayout1 = findViewById(R.id.main_category_layout_1);
-        mainCategoryLayout2 = findViewById(R.id.main_category_layout_2);
-        mainCategoryLayout3 = findViewById(R.id.main_category_layout_3);
-        mainCategoryLayout4 = findViewById(R.id.main_category_layout_4);
-        mainCategoryLayout5 = findViewById(R.id.main_category_layout_5);
+        studyDietMainCategory = findViewById(R.id.study_diet_main_category_layout);
+        healthyDietMainCategory = findViewById(R.id.healthy_diet_main_category_layout);
+        homeMealMainCategory = findViewById(R.id.home_meal_main_category_layout);
+        eventDietMainCategory = findViewById(R.id.event_diet_main_category_layout);
+        refreshDietMainCategory = findViewById(R.id.refresh_diet_main_category_layout);
     }
 
     private void getMainCategoryTitleResponse() {
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }).start();
-
         onClickCategory();
     }
 
@@ -107,44 +105,50 @@ public class MainActivity extends AppCompatActivity {
     private void onClickCategory() {
         intent = new Intent(getApplicationContext(), RecommendDietListActivity.class);
 
-        mainCategoryLayout1.setOnClickListener(new View.OnClickListener() {
+        studyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent.putExtra("dietSeCode", dietSeCode.get(0));
+                intent.putExtra("mainCategoryName", getString(R.string.study_diet_main_category_name));
                 startActivity(intent);
             }
         });
 
-        mainCategoryLayout2.setOnClickListener(new View.OnClickListener() {
+        healthyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent.putExtra("dietSeCode", dietSeCode.get(1));
+                intent.putExtra("mainCategoryName", getString(R.string.healthy_diet_main_category_name));
                 startActivity(intent);
             }
         });
 
-        mainCategoryLayout3.setOnClickListener(new View.OnClickListener() {
+        homeMealMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent.putExtra("dietSeCode", dietSeCode.get(2));
+                intent.putExtra("mainCategoryName", getString(R.string.home_meal_main_category_name));
                 startActivity(intent);
             }
         });
 
-        mainCategoryLayout4.setOnClickListener(new View.OnClickListener() {
+        eventDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent.putExtra("dietSeCode", dietSeCode.get(3));
+                intent.putExtra("mainCategoryName", getString(R.string.event_diet_main_category_name));
                 startActivity(intent);
             }
         });
 
-        mainCategoryLayout5.setOnClickListener(new View.OnClickListener() {
+        refreshDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent.putExtra("dietSeCode", dietSeCode.get(4));
+                intent.putExtra("mainCategoryName", getString(R.string.refresh_diet_main_category_name));
                 startActivity(intent);
             }
         });
     }
+
 }

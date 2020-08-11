@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_marginTop="27dp"
-    android:layout_marginEnd="13dp">
+    android:layout_marginEnd="13dp"
+    android:gravity="center">
 
         <ImageView
             android:id="@+id/imageView_recommend_diet"
@@ -16,13 +17,21 @@
             android:contentDescription="@string/recipe_category_image"/>
 
         <TextView
+            android:id="@+id/main_category_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_category"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+        <TextView
             android:id="@+id/tv_recommend_diet_category"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="김치찌개, 차돌밥, 달걀 채소 말이"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="13sp" />
 
 </LinearLayout>

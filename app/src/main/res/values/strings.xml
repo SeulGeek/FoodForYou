@@ -4,14 +4,20 @@
     <string name="yummy_recipe">맛있는 식단</string>
 
     <string name="main_category">식단 카테고리</string>
-    <string name="main_category_name_1">열공식단</string>
-    <string name="main_category_name_2">건강 식단</string>
-    <string name="main_category_name_3">가정식 식단</string>
-    <string name="main_category_name_4">이벤트 식단</string>
-    <string name="main_category_name_5">기분 UP 식단</string>
+    <string name="study_diet_main_category_name">열공식단</string>
+    <string name="healthy_diet_main_category_name">건강 식단</string>
+    <string name="home_meal_main_category_name">가정식 식단</string>
+    <string name="event_diet_main_category_name">이벤트 식단</string>
+    <string name="refresh_diet_main_category_name">기분 UP 식단</string>
 
     <string name="recipe_category_image">식단 카테고리 이미지</string>
 
+    <!-- Detail Screen-->
+    <string name="food_material">재료</string>
+    <string name="recipe_order">조리 순서</string>
+
     <string name="kcal">%sKcal</string>
     <string name="gram">%sg</string>
+
+    <string name="add_diet_button">식단 더 보기</string>
 </resources>
