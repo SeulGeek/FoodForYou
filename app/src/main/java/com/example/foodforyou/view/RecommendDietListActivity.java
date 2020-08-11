@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodforyou.R;
+import com.example.foodforyou.model.DataManager;
+import com.example.foodforyou.model.RecommendDietList;
 import com.example.foodforyou.model.RecommendDietListResponse;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -18,15 +20,20 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class RecommendDietListActivity extends AppCompatActivity {
 
-    private RecommendDietListAdapter adapter;
+    public static final String TAG = RecommendDietList.class.getCanonicalName();
+
+    private int pageNo = 1;
+    private int currentItemSize = 0;
+    private String mainCategoryName;
     private String dietSeCode;
-    private ArrayList<String> dietName;
-    private ArrayList<String> cntntsNo;
-    private ArrayList<String> imgLink;
+
+    private RelativeLayout addItemButton;
+    private RecommendDietListAdapter adapter;
+
+    private DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +43,28 @@ public class RecommendDietListActivity extends AppCompatActivity {
         init();
 
         setRecommendDietListResponse();
+
+        addItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"< clicked addItemButton >");
+                if (pageNo >= 1) {
+                    pageNo += 1;
+                }
+                //TODO: page가 없는 경우도 처리해주기
+                setRecommendDietListResponse();
+            }
+        });
     }
 
     private void init() {
         Intent intent = getIntent();
         dietSeCode = intent.getStringExtra("dietSeCode");
-        if (dietSeCode != null) {
-            Log.d("dietSeCode:", dietSeCode);
-        }
+        mainCategoryName = intent.getStringExtra("mainCategoryName");
 
+        dataManager = new DataManager();
         RecyclerView recyclerView = findViewById(R.id.diet_list_category_recycler_view);
-
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(layoutManager);
+        addItemButton = findViewById(R.id.add_diet_button);
 
         adapter = new RecommendDietListAdapter();
         recyclerView.setAdapter(adapter);
@@ -63,15 +79,11 @@ public class RecommendDietListActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < dietName.size(); i++) {
-                            RecommendDietListResponse response = new RecommendDietListResponse();
-                            response.setDietNm(dietName.get(i));
-                            response.setRtnImageDc(imgLink.get(i));
-
-                            Log.d("Recommend Text: ", dietName.get(i));
-                            adapter.addItem(response);
+                        for (int i = currentItemSize; i < dataManager.getRecommendDietListResponses().size(); i++) {
+                            adapter.addItem(dataManager.getRecommendDietListResponses().get(i), mainCategoryName);
+                            adapter.notifyDataSetChanged();
+                            currentItemSize = dataManager.getRecommendDietListResponses().size();
                         }
-                        adapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -81,19 +93,17 @@ public class RecommendDietListActivity extends AppCompatActivity {
             @Override
             public void onDietItemClick(RecommendDietListAdapter.ViewHolder holder, View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), RecommendDietFoodListActivity.class);
-                intent.putExtra("cntntsNo", cntntsNo.get(position));
+                intent.putExtra("cntntsNo", String.valueOf(dataManager.getRecommendDietListResponses().get(position).getCntntsNo()));
+                intent.putExtra("mainCategoryName", mainCategoryName);
                 startActivity(intent);
             }
         });
     }
 
     private void getRecommendDietListResponse() {
-        dietName = new ArrayList<>();
-        cntntsNo = new ArrayList<>();
-        imgLink = new ArrayList<>();
         String apiKey = getString(R.string.recommended_food_recipe_api_key);
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/recomendDietList?apiKey=" + apiKey
-                + "&dietSeCode=" + dietSeCode;
+                + "&dietSeCode=" + dietSeCode + "&pageNo=" + pageNo;
 
         try {
             URL url = new URL(apiUrl);
@@ -111,15 +121,16 @@ public class RecommendDietListActivity extends AppCompatActivity {
                     // XML 데이터 시작
                 } else if (eventType == XmlPullParser.START_TAG) {
                     startTag = xpp.getName();
-                    if (startTag.equals("item")) isItemType = true;
-
+                    if (startTag.equals("item")) {
+                        isItemType = true;
+                        dataManager.getRecommendDietListResponses().add(new RecommendDietListResponse());
+                    }
                 } else if (eventType == XmlPullParser.TEXT) {
-                    String text = xpp.getText() ;
                     if (isItemType) {
                         if (startTag.equals("cntntsNo")) {
-                            cntntsNo.add(xpp.getText());
+                            dataManager.getLastDietListData().setCntntsNo(Integer.parseInt(xpp.getText()));
                         } else if (startTag.equals("dietNm")) {
-                            dietName.add(xpp.getText());
+                            dataManager.getLastDietListData().setDietNm(xpp.getText());
                         } else if (startTag.equals("fdNm")) {
 
                         } else if (startTag.equals("cntntsSj")) {
@@ -137,7 +148,7 @@ public class RecommendDietListActivity extends AppCompatActivity {
                         } else if (startTag.equals("rtnStreFileNu")) {
 
                         } else if (startTag.equals("rtnImageDc")) {
-                            imgLink.add(xpp.getText());
+                            dataManager.getLastDietListData().setRtnImageDc(xpp.getText());
                         } else if (startTag.equals("rtnThumbFileNm")) {
 
                         } else if (startTag.equals("rtnImgSeCode")) {
@@ -156,5 +167,10 @@ public class RecommendDietListActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        for (int i = 0; i < dataManager.getRecommendDietListResponses().size(); i++) {
+            Log.d(TAG, String.valueOf(dataManager.getRecommendDietListResponses().get(i).getCntntsNo()));
+            Log.d(TAG, String.valueOf(dataManager.getRecommendDietListResponses().get(i).getDietNm()));
+        }
     }
+
 }

@@ -1,5 +1,6 @@
 package com.example.foodforyou.view;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodforyou.R;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<RecommendDietFoodListAdapter.ViewHolder> {
 
     private ArrayList<RecommendDietDetail> response = new ArrayList<>();
+    private String mainCategoryName;
 
     public interface OnFoodItemClickListener {
         void onFoodItemClick(View view, int position);
@@ -48,21 +51,24 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
         return response.size();
     }
 
-    public void addItem(RecommendDietDetail data) {
+    public void addItem(RecommendDietDetail data, String mainCategoryName) {
+        this.mainCategoryName = mainCategoryName;
         response.add(data);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         LinearLayout foodListLayout;
+        TextView mainCategoryNameTextView;
         ImageView foodImageView;
-        TextView foodName;
+        TextView foodNameTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             foodListLayout = itemView.findViewById(R.id.food_list_layout);
             foodImageView = itemView.findViewById(R.id.food_image_view);
-            foodName = itemView.findViewById(R.id.food_name_text_view);
+            mainCategoryNameTextView = itemView.findViewById(R.id.main_category_name_text_view);
+            foodNameTextView = itemView.findViewById(R.id.food_name_text_view);
 
             foodListLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -79,10 +85,10 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
             if (!TextUtils.isEmpty(data.getRtnImageDc())) {
                 Picasso.get().load(data.getRtnImageDc()).into(foodImageView);
             } else {
-                foodImageView.setImageResource(R.drawable.img_none); //TODO: change svg image
+                foodImageView.setImageResource(R.drawable.img_none);
             }
-
-            foodName.setText(data.getFdNm());
+            mainCategoryNameTextView.setText(mainCategoryName);
+            foodNameTextView.setText(data.getFdNm());
         }
     }
 }

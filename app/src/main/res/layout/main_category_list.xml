@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
-            android:id="@+id/main_category_layout_1"
+            android:id="@+id/study_diet_main_category_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -28,13 +28,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/main_category_name_1"
+                android:text="@string/study_diet_main_category_name"
                 android:textSize="12sp"
                 android:textColor="@color/black"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/main_category_layout_5"
+            android:id="@+id/refresh_diet_main_category_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -49,14 +49,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/main_category_name_5"
+                android:text="@string/refresh_diet_main_category_name"
                 android:textSize="12sp"
                 android:textColor="@color/black"/>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/main_category_layout_2"
+        android:id="@+id/healthy_diet_main_category_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -71,13 +71,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_category_name_2"
+            android:text="@string/healthy_diet_main_category_name"
             android:textSize="12sp"
             android:textColor="@color/black"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/main_category_layout_3"
+        android:id="@+id/home_meal_main_category_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -92,13 +92,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_category_name_3"
+            android:text="@string/home_meal_main_category_name"
             android:textSize="12sp"
             android:textColor="@color/black"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/main_category_layout_4"
+        android:id="@+id/event_diet_main_category_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -112,7 +112,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_category_name_4"
+            android:text="@string/event_diet_main_category_name"
             android:textSize="12sp"
             android:textColor="@color/black"/>
     </LinearLayout>

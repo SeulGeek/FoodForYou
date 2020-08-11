@@ -2,6 +2,7 @@ package com.example.foodforyou.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,7 +12,11 @@ import com.example.foodforyou.R;
 import com.squareup.picasso.Picasso;
 
 public class FoodRecipeDetails extends AppCompatActivity {
+
+    public static final String NULL_VALUE = " - ";
+
     private String foodImage;
+    private String mainCategoryName;
     private String foodName;
     private String foodMaterial;
     private String recipeOrder;
@@ -21,6 +26,7 @@ public class FoodRecipeDetails extends AppCompatActivity {
     private String lipidInfo;
 
     private ImageView foodImageView;
+    private TextView mainCategoryNameTextView;
     private TextView foodNameTextView;
     private TextView foodMaterialTextView;
     private TextView recipeOrderTextView;
@@ -43,6 +49,7 @@ public class FoodRecipeDetails extends AppCompatActivity {
 
     private void init() {
         foodImageView = findViewById(R.id.food_image_view);
+        mainCategoryNameTextView = findViewById(R.id.main_category_name_text_view);
         foodNameTextView = findViewById(R.id.food_name_text_view);
         foodMaterialTextView = findViewById(R.id.food_material_text_view);
         recipeOrderTextView = findViewById(R.id.recipe_order_text_view);
@@ -54,6 +61,7 @@ public class FoodRecipeDetails extends AppCompatActivity {
 
     private void getApiResponse() {
         Intent intent = getIntent();
+        mainCategoryName = intent.getStringExtra("mainCategoryName");
         foodImage = intent.getStringExtra("foodImage");
         foodName = intent.getStringExtra("foodName");
         foodMaterial = intent.getStringExtra("materialInfo");
@@ -65,14 +73,40 @@ public class FoodRecipeDetails extends AppCompatActivity {
     }
 
     private void setDataOnView() {
-        Picasso.get().load(foodImage).into(foodImageView);
+        if (!TextUtils.isEmpty(foodImage)) {
+            Picasso.get().load(foodImage).into(foodImageView);
+            foodImageView.setPadding(0,0,0,0);
+        } else {
+            foodImageView.setImageResource(R.drawable.img_none);
+            foodImageView.setPadding(0,40,0,0);
+        }
+        mainCategoryNameTextView.setText(mainCategoryName);
         foodNameTextView.setText(foodName);
         foodMaterialTextView.setText(foodMaterial);
         recipeOrderTextView.setText(recipeOrder);
 
-        calorieInfoTextView.setText(getString(R.string.kcal, calorieInfo));
-        carbohydratesInfoTextView.setText(getString(R.string.gram, carbohydratesInfo));
-        proteinInfoTextView.setText(getString(R.string.gram, proteinInfo));
-        lipidInfoTextView.setText(getString(R.string.gram, lipidInfo));
+        if (!TextUtils.isEmpty(calorieInfo)) {
+            calorieInfoTextView.setText(getString(R.string.kcal, calorieInfo));
+        } else {
+            calorieInfoTextView.setText(getString(R.string.kcal, NULL_VALUE));
+        }
+
+        if (!TextUtils.isEmpty(carbohydratesInfo)) {
+            carbohydratesInfoTextView.setText(getString(R.string.gram, carbohydratesInfo));
+        } else {
+            carbohydratesInfoTextView.setText(getString(R.string.gram, NULL_VALUE));
+        }
+
+        if (!TextUtils.isEmpty(proteinInfo)) {
+            proteinInfoTextView.setText(getString(R.string.gram, proteinInfo));
+        } else {
+            proteinInfoTextView.setText(getString(R.string.gram, NULL_VALUE));
+        }
+
+        if (!TextUtils.isEmpty(lipidInfo)) {
+            lipidInfoTextView.setText(getString(R.string.gram, lipidInfo));
+        } else {
+            lipidInfoTextView.setText(getString(R.string.gram, NULL_VALUE));
+        }
     }
 }

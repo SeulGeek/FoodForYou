@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,9 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
         implements OnDietClickListener{
 
     private ArrayList<RecommendDietListResponse> response = new ArrayList<>();
+    private String mainCategoryName;
     private OnDietClickListener listener;
+
 
     @NonNull
     @Override
@@ -30,7 +33,7 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.onBind(response.get(position));
+        holder.onBind(response.get(position), mainCategoryName);
     }
 
     @Override
@@ -38,7 +41,8 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
         return response.size();
     }
 
-    public void addItem(RecommendDietListResponse data) {
+    public void addItem(RecommendDietListResponse data, String mainCategoryName) {
+        this.mainCategoryName = mainCategoryName;
         response.add(data);
     }
 
@@ -53,16 +57,21 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
         }
     }
 
+
     //ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView dietName;
+        TextView mainCategoryNameTextView;
+        TextView dietNameTextView;
+        RelativeLayout button;
 
-        public ViewHolder(@NonNull View itemView, final OnDietClickListener listener) {
+        ViewHolder(@NonNull View itemView, final OnDietClickListener listener) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView_recommend_diet);
-            dietName = itemView.findViewById(R.id.tv_recommend_diet_category);
+            mainCategoryNameTextView = itemView.findViewById(R.id.main_category_name_text_view);
+            dietNameTextView = itemView.findViewById(R.id.tv_recommend_diet_category);
+            button = itemView.findViewById(R.id.add_diet_button);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,9 +84,10 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
             });
         }
 
-        void onBind(RecommendDietListResponse data) {
+        void onBind(RecommendDietListResponse data, String mainCategoryName) {
             Picasso.get().load(data.getRtnImageDc()).into(imageView);
-            dietName.setText(data.getDietNm());
+            mainCategoryNameTextView.setText(mainCategoryName);
+            dietNameTextView.setText(data.getDietNm());
         }
     }
 

@@ -6,4 +6,10 @@
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="dark_gray">#878787</color>
+    <color name="light_gray">#e5e5e5</color>
+    <color name="light_orange">#FFA346</color>
+    <color name="mid_orange">#FF9046</color>
+    <color name="dark_orange">#FF7E46</color>
+    <color name="yellow">#FFAC00</color>
 </resources>
