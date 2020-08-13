@@ -1,5 +1,6 @@
 package com.example.foodforyou.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.foodforyou.R;
 import com.example.foodforyou.model.MainCategory;
+import com.example.foodforyou.viewModel.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -19,6 +21,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Context mContext;
+    private TextView recommendDietListTextView;
 
     private LinearLayout studyDietMainCategory;
     private LinearLayout healthyDietMainCategory;
@@ -41,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        mContext = this;
+
         studyDietMainCategory = findViewById(R.id.study_diet_main_category_layout);
         healthyDietMainCategory = findViewById(R.id.healthy_diet_main_category_layout);
         homeMealMainCategory = findViewById(R.id.home_meal_main_category_layout);
@@ -108,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
         studyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("dietSeCode", dietSeCode.get(0));
-                intent.putExtra("mainCategoryName", getString(R.string.study_diet_main_category_name));
+                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(0));
+                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.study_diet_main_category_name));
                 startActivity(intent);
             }
         });
@@ -117,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
         healthyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("dietSeCode", dietSeCode.get(1));
-                intent.putExtra("mainCategoryName", getString(R.string.healthy_diet_main_category_name));
+                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(1));
+                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.healthy_diet_main_category_name));
                 startActivity(intent);
             }
         });
@@ -126,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
         homeMealMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("dietSeCode", dietSeCode.get(2));
-                intent.putExtra("mainCategoryName", getString(R.string.home_meal_main_category_name));
+                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(2));
+                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.home_meal_main_category_name));
                 startActivity(intent);
             }
         });
@@ -135,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
         eventDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("dietSeCode", dietSeCode.get(3));
-                intent.putExtra("mainCategoryName", getString(R.string.event_diet_main_category_name));
+                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(3));
+                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.event_diet_main_category_name));
                 startActivity(intent);
             }
         });
@@ -144,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
         refreshDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("dietSeCode", dietSeCode.get(4));
-                intent.putExtra("mainCategoryName", getString(R.string.refresh_diet_main_category_name));
+                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(4));
+                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.refresh_diet_main_category_name));
                 startActivity(intent);
             }
         });
