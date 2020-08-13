@@ -1,5 +1,6 @@
 package com.example.foodforyou.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodforyou.R;
 import com.example.foodforyou.model.RecommendDietDetail;
+import com.example.foodforyou.viewModel.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 
 public class RecommendDietFoodListActivity extends AppCompatActivity {
 
+    private Context mContext;
     private RecommendDietFoodListAdapter adapter;
     private String mainCategoryName;
     private String cntntsNo;
@@ -46,9 +49,10 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
     }
 
     public void init() {
-        Intent intent = getIntent();
-        mainCategoryName = intent.getStringExtra("mainCategoryName");
-        cntntsNo = intent.getStringExtra("cntntsNo");
+        mContext = this;
+
+        cntntsNo = PreferenceManager.getString(mContext, "cntntsNo");
+        mainCategoryName = PreferenceManager.getString(mContext, "mainCategoryName");
 
         RecyclerView recyclerView = findViewById(R.id.diet_food_list_category_recycler_view);
 

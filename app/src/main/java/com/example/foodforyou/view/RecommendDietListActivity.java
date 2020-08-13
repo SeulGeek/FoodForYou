@@ -1,5 +1,6 @@
 package com.example.foodforyou.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.example.foodforyou.R;
 import com.example.foodforyou.model.DataManager;
 import com.example.foodforyou.model.RecommendDietList;
 import com.example.foodforyou.model.RecommendDietListResponse;
+import com.example.foodforyou.viewModel.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -25,6 +27,7 @@ public class RecommendDietListActivity extends AppCompatActivity {
 
     public static final String TAG = RecommendDietList.class.getCanonicalName();
 
+    private Context mContext;
     private int pageNo = 1;
     private int currentItemSize = 0;
     private String mainCategoryName;
@@ -55,12 +58,14 @@ public class RecommendDietListActivity extends AppCompatActivity {
                 setRecommendDietListResponse();
             }
         });
+
     }
 
     private void init() {
-        Intent intent = getIntent();
-        dietSeCode = intent.getStringExtra("dietSeCode");
-        mainCategoryName = intent.getStringExtra("mainCategoryName");
+        mContext = this;
+
+        dietSeCode = PreferenceManager.getString(mContext, "dietSeCode");
+        mainCategoryName = PreferenceManager.getString(mContext, "mainCategoryName");
 
         dataManager = new DataManager();
         RecyclerView recyclerView = findViewById(R.id.diet_list_category_recycler_view);
@@ -93,8 +98,8 @@ public class RecommendDietListActivity extends AppCompatActivity {
             @Override
             public void onDietItemClick(RecommendDietListAdapter.ViewHolder holder, View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), RecommendDietFoodListActivity.class);
-                intent.putExtra("cntntsNo", String.valueOf(dataManager.getRecommendDietListResponses().get(position).getCntntsNo()));
-                intent.putExtra("mainCategoryName", mainCategoryName);
+                PreferenceManager.setString(mContext, "cntntsNo", String.valueOf(dataManager.getRecommendDietListResponses().get(position).getCntntsNo()));
+                PreferenceManager.setString(mContext,"mainCategoryName", mainCategoryName);
                 startActivity(intent);
             }
         });
