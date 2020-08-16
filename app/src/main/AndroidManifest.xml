@@ -6,15 +6,18 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/food_for_you_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/food_for_you_app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.FoodRecipeDetails"></activity>
-        <activity android:name=".view.RecommendDietFoodListActivity" />
-        <activity android:name=".view.RecommendDietListActivity" />
+        <activity android:name=".view.RecommendDietListActivity"
+            android:parentActivityName=".view.MainActivity"/>
+        <activity android:name=".view.RecommendDietFoodListActivity"
+            android:parentActivityName=".view.RecommendDietListActivity"/>
+        <activity android:name=".view.FoodRecipeDetails"
+            android:parentActivityName=".view.RecommendDietFoodListActivity"/>
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
