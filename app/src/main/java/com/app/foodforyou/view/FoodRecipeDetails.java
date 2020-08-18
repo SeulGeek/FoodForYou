@@ -1,4 +1,4 @@
-package com.example.foodforyou.view;
+package com.app.foodforyou.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.foodforyou.R;
-import com.example.foodforyou.viewModel.NetworkConnectionStateMonitor;
+import com.app.foodforyou.R;
+import com.app.foodforyou.viewModel.NetworkConnectionStateMonitor;
 import com.squareup.picasso.Picasso;
 
 public class FoodRecipeDetails extends AppCompatActivity {

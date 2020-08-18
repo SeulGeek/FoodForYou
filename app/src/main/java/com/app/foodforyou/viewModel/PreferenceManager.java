@@ -1,4 +1,4 @@
-package com.example.foodforyou.viewModel;
+package com.app.foodforyou.viewModel;
 
 import android.content.Context;
 import android.content.SharedPreferences;

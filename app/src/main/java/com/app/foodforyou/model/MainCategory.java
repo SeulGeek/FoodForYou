@@ -1,4 +1,4 @@
-package com.example.foodforyou.model;
+package com.app.foodforyou.model;
 
 public class MainCategory {
     private String dietSeCode;
