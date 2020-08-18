@@ -1,5 +1,6 @@
 package com.example.foodforyou.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,11 +10,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.foodforyou.R;
+import com.example.foodforyou.viewModel.NetworkConnectionStateMonitor;
 import com.squareup.picasso.Picasso;
 
 public class FoodRecipeDetails extends AppCompatActivity {
 
     public static final String NULL_VALUE = " - ";
+
+    private Context mContext;
+    private NetworkConnectionStateMonitor networkConnectionStateMonitor;
 
     private String foodImage;
     private String mainCategoryName;
@@ -40,11 +45,21 @@ public class FoodRecipeDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_recipe_details);
 
-        init();
+        mContext = this;
 
-        getApiResponse();
+        if (networkConnectionStateMonitor == null) {
+            networkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
+            networkConnectionStateMonitor.register();
+        }
 
-        setDataOnView();
+        if (networkConnectionStateMonitor != null) {
+            init();
+
+            getApiResponse();
+
+            setDataOnView();
+        }
+
     }
 
     private void init() {
@@ -108,5 +123,11 @@ public class FoodRecipeDetails extends AppCompatActivity {
         } else {
             lipidInfoTextView.setText(getString(R.string.gram, NULL_VALUE));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        networkConnectionStateMonitor.unRegister();
     }
 }

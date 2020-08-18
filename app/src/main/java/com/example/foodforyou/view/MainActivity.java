@@ -1,15 +1,20 @@
 package com.example.foodforyou.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.foodforyou.R;
 import com.example.foodforyou.model.MainCategory;
+import com.example.foodforyou.viewModel.NetworkConnectionStateMonitor;
 import com.example.foodforyou.viewModel.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -23,7 +28,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private Context mContext;
-    private TextView recommendDietListTextView;
+    private NetworkConnectionStateMonitor networkConnectionStateMonitor;
 
     private LinearLayout studyDietMainCategory;
     private LinearLayout healthyDietMainCategory;
@@ -42,11 +47,49 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        getMainCategoryTitleResponse();
+        if (networkConnectionStateMonitor != null) {
+            getMainCategoryTitleResponse();
+        }
     }
 
     private void init() {
         mContext = this;
+
+        if (networkConnectionStateMonitor == null) {
+            networkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
+            networkConnectionStateMonitor.register();
+
+
+            //TODO: Add progress dialog (or bar) after first release
+            if (!networkConnectionStateMonitor.isConnected()) {
+
+                final AlertDialog alertDialog = new AlertDialog.Builder(mContext)
+                        .setCancelable(false)
+                        .setMessage(R.string.dialog_network_alert_message)
+                        .setPositiveButton(R.string.dialog_positive_button, null)
+                        .create();
+
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        positiveButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (networkConnectionStateMonitor.isConnected()) {
+                                    alertDialog.dismiss();
+                                    Toast.makeText(mContext, R.string.network_connected_message, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(mContext, R.string.network_unconnected_message, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+
+                alertDialog.show();
+            }
+        }
 
         studyDietMainCategory = findViewById(R.id.study_diet_main_category_layout);
         healthyDietMainCategory = findViewById(R.id.healthy_diet_main_category_layout);
@@ -73,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }).start();
+
         onClickCategory();
     }
 
@@ -156,6 +200,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        networkConnectionStateMonitor.unRegister();
     }
 
 }

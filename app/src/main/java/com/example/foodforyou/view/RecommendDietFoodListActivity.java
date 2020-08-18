@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodforyou.R;
 import com.example.foodforyou.model.RecommendDietDetail;
+import com.example.foodforyou.viewModel.NetworkConnectionStateMonitor;
 import com.example.foodforyou.viewModel.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 public class RecommendDietFoodListActivity extends AppCompatActivity {
 
     private Context mContext;
+    private NetworkConnectionStateMonitor networkConnectionStateMonitor;
+
     private RecommendDietFoodListAdapter adapter;
     private String mainCategoryName;
     private String cntntsNo;
@@ -43,14 +46,20 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recommend_diet_food_list);
 
-        init();
+        mContext = this;
 
-        setRecommendDietFoodListResponse();
+        if (networkConnectionStateMonitor == null) {
+            networkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
+            networkConnectionStateMonitor.register();
+        }
+
+        if (networkConnectionStateMonitor != null) {
+            init();
+            setRecommendDietFoodListResponse();
+        }
     }
 
     public void init() {
-        mContext = this;
-
         cntntsNo = PreferenceManager.getString(mContext, "cntntsNo");
         mainCategoryName = PreferenceManager.getString(mContext, "mainCategoryName");
 
@@ -62,7 +71,6 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
 
         adapter = new RecommendDietFoodListAdapter();
         recyclerView.setAdapter(adapter);
-
     }
 
     private void setRecommendDietFoodListResponse() {
@@ -170,5 +178,11 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        networkConnectionStateMonitor.unRegister();
     }
 }

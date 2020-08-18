@@ -1,6 +1,5 @@
 package com.example.foodforyou.view;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodforyou.R;
 import com.example.foodforyou.model.RecommendDietDetail;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -83,7 +82,10 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
 
         void onBind(RecommendDietDetail data) {
             if (!TextUtils.isEmpty(data.getRtnImageDc())) {
-                Picasso.get().load(data.getRtnImageDc()).into(foodImageView);
+                Picasso.get()
+                        .load(data.getRtnImageDc())
+                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                        .into(foodImageView);
             } else {
                 foodImageView.setImageResource(R.drawable.img_none);
             }

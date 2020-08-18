@@ -14,6 +14,7 @@ import com.example.foodforyou.R;
 import com.example.foodforyou.model.DataManager;
 import com.example.foodforyou.model.RecommendDietList;
 import com.example.foodforyou.model.RecommendDietListResponse;
+import com.example.foodforyou.viewModel.NetworkConnectionStateMonitor;
 import com.example.foodforyou.viewModel.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -26,6 +27,7 @@ import java.net.URL;
 public class RecommendDietListActivity extends AppCompatActivity {
 
     public static final String TAG = RecommendDietList.class.getCanonicalName();
+    private NetworkConnectionStateMonitor networkConnectionStateMonitor;
 
     private Context mContext;
     private int pageNo = 1;
@@ -43,26 +45,33 @@ public class RecommendDietListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recommend_diet_list);
 
-        init();
+        mContext = this;
 
-        setRecommendDietListResponse();
+        if (networkConnectionStateMonitor == null) {
+            networkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
+            networkConnectionStateMonitor.register();
+        }
 
-        addItemButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG,"< clicked addItemButton >");
-                if (pageNo >= 1) {
-                    pageNo += 1;
+        if (networkConnectionStateMonitor != null) {
+            init();
+            setRecommendDietListResponse();
+
+            addItemButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG,"< clicked addItemButton >");
+                    if (pageNo >= 1) {
+                        pageNo += 1;
+                    }
+                    //TODO: page가 없는 경우도 처리해주기
+                    setRecommendDietListResponse();
                 }
-                //TODO: page가 없는 경우도 처리해주기
-                setRecommendDietListResponse();
-            }
-        });
+            });
 
+        }
     }
 
     private void init() {
-        mContext = this;
 
         dietSeCode = PreferenceManager.getString(mContext, "dietSeCode");
         mainCategoryName = PreferenceManager.getString(mContext, "mainCategoryName");
@@ -176,6 +185,13 @@ public class RecommendDietListActivity extends AppCompatActivity {
             Log.d(TAG, String.valueOf(dataManager.getRecommendDietListResponses().get(i).getCntntsNo()));
             Log.d(TAG, String.valueOf(dataManager.getRecommendDietListResponses().get(i).getDietNm()));
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        networkConnectionStateMonitor.unRegister();
     }
 
 }
