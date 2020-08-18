@@ -1,9 +1,8 @@
-package com.example.foodforyou.view;
+package com.app.foodforyou.view;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +10,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.foodforyou.R;
-import com.example.foodforyou.model.RecommendDietDetail;
-import com.example.foodforyou.viewModel.NetworkConnectionStateMonitor;
-import com.example.foodforyou.viewModel.PreferenceManager;
+import com.app.foodforyou.R;
+import com.app.foodforyou.model.RecommendDietDetail;
+import com.app.foodforyou.viewModel.NetworkConnectionStateMonitor;
+import com.app.foodforyou.viewModel.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;

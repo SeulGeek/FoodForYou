@@ -1,4 +1,4 @@
-package com.example.foodforyou.view;
+package com.app.foodforyou.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,12 +10,12 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.foodforyou.R;
-import com.example.foodforyou.model.DataManager;
-import com.example.foodforyou.model.RecommendDietList;
-import com.example.foodforyou.model.RecommendDietListResponse;
-import com.example.foodforyou.viewModel.NetworkConnectionStateMonitor;
-import com.example.foodforyou.viewModel.PreferenceManager;
+import com.app.foodforyou.R;
+import com.app.foodforyou.model.DataManager;
+import com.app.foodforyou.model.RecommendDietList;
+import com.app.foodforyou.model.RecommendDietListResponse;
+import com.app.foodforyou.viewModel.NetworkConnectionStateMonitor;
+import com.app.foodforyou.viewModel.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;

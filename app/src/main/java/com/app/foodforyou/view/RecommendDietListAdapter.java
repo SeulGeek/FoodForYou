@@ -1,4 +1,4 @@
-package com.example.foodforyou.view;
+package com.app.foodforyou.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.foodforyou.R;
-import com.example.foodforyou.model.RecommendDietListResponse;
+import com.app.foodforyou.R;
+import com.app.foodforyou.model.RecommendDietListResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
