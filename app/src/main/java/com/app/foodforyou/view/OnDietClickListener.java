@@ -1,4 +1,4 @@
-package com.example.foodforyou.view;
+package com.app.foodforyou.view;
 
 import android.view.View;
 

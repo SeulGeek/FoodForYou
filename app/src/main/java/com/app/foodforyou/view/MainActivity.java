@@ -1,4 +1,4 @@
-package com.example.foodforyou.view;
+package com.app.foodforyou.view;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,10 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.foodforyou.R;
-import com.example.foodforyou.model.MainCategory;
-import com.example.foodforyou.viewModel.NetworkConnectionStateMonitor;
-import com.example.foodforyou.viewModel.PreferenceManager;
+import com.app.foodforyou.R;
+import com.app.foodforyou.model.MainCategory;
+import com.app.foodforyou.viewModel.NetworkConnectionStateMonitor;
+import com.app.foodforyou.viewModel.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;

@@ -1,4 +1,4 @@
-package com.example.foodforyou.viewModel;
+package com.app.foodforyou.viewModel;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.example.foodforyou.R;
+import com.app.foodforyou.R;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class NetworkConnectionStateMonitor extends ConnectivityManager.NetworkCallback {

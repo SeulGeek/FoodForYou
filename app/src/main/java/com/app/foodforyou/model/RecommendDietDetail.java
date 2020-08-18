@@ -1,4 +1,4 @@
-package com.example.foodforyou.model;
+package com.app.foodforyou.model;
 
 public class RecommendDietDetail {
     private int cntntsNo; // 컨텐츠 번호
