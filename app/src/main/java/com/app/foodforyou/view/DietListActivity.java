@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.foodforyou.R;
 import com.app.foodforyou.model.DataManager;
-import com.app.foodforyou.model.RecommendDietList;
-import com.app.foodforyou.model.RecommendDietListResponse;
+import com.app.foodforyou.model.DietListResponse;
 import com.app.foodforyou.viewModel.NetworkConnectionStateMonitor;
 import com.app.foodforyou.viewModel.PreferenceManager;
 
@@ -24,9 +23,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-public class RecommendDietListActivity extends AppCompatActivity {
+public class DietListActivity extends AppCompatActivity {
 
-    public static final String TAG = RecommendDietList.class.getCanonicalName();
+    public static final String TAG = DietListActivity.class.getCanonicalName();
     private NetworkConnectionStateMonitor networkConnectionStateMonitor;
 
     private Context mContext;
@@ -36,7 +35,7 @@ public class RecommendDietListActivity extends AppCompatActivity {
     private String dietSeCode;
 
     private RelativeLayout addItemButton;
-    private RecommendDietListAdapter adapter;
+    private DietListAdapter adapter;
 
     private DataManager dataManager;
 
@@ -80,7 +79,7 @@ public class RecommendDietListActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.diet_list_category_recycler_view);
         addItemButton = findViewById(R.id.add_diet_button);
 
-        adapter = new RecommendDietListAdapter();
+        adapter = new DietListAdapter();
         recyclerView.setAdapter(adapter);
     }
 
@@ -93,10 +92,10 @@ public class RecommendDietListActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = currentItemSize; i < dataManager.getRecommendDietListResponses().size(); i++) {
-                            adapter.addItem(dataManager.getRecommendDietListResponses().get(i), mainCategoryName);
+                        for (int i = currentItemSize; i < dataManager.getDietListResponses().size(); i++) {
+                            adapter.addItem(dataManager.getDietListResponses().get(i), mainCategoryName);
                             adapter.notifyDataSetChanged();
-                            currentItemSize = dataManager.getRecommendDietListResponses().size();
+                            currentItemSize = dataManager.getDietListResponses().size();
                         }
                     }
                 });
@@ -105,9 +104,9 @@ public class RecommendDietListActivity extends AppCompatActivity {
 
         adapter.setOnItemClickListener(new OnDietClickListener() {
             @Override
-            public void onDietItemClick(RecommendDietListAdapter.ViewHolder holder, View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), RecommendDietFoodListActivity.class);
-                PreferenceManager.setString(mContext, "cntntsNo", String.valueOf(dataManager.getRecommendDietListResponses().get(position).getCntntsNo()));
+            public void onDietItemClick(DietListAdapter.ViewHolder holder, View view, int position) {
+                Intent intent = new Intent(getApplicationContext(), FoodListActivity.class);
+                PreferenceManager.setString(mContext, "cntntsNo", String.valueOf(dataManager.getDietListResponses().get(position).getCntntsNo()));
                 PreferenceManager.setString(mContext,"mainCategoryName", mainCategoryName);
                 startActivity(intent);
             }
@@ -137,7 +136,7 @@ public class RecommendDietListActivity extends AppCompatActivity {
                     startTag = xpp.getName();
                     if (startTag.equals("item")) {
                         isItemType = true;
-                        dataManager.getRecommendDietListResponses().add(new RecommendDietListResponse());
+                        dataManager.getDietListResponses().add(new DietListResponse());
                     }
                 } else if (eventType == XmlPullParser.TEXT) {
                     if (isItemType) {
@@ -181,9 +180,9 @@ public class RecommendDietListActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < dataManager.getRecommendDietListResponses().size(); i++) {
-            Log.d(TAG, String.valueOf(dataManager.getRecommendDietListResponses().get(i).getCntntsNo()));
-            Log.d(TAG, String.valueOf(dataManager.getRecommendDietListResponses().get(i).getDietNm()));
+        for (int i = 0; i < dataManager.getDietListResponses().size(); i++) {
+            Log.d(TAG, String.valueOf(dataManager.getDietListResponses().get(i).getCntntsNo()));
+            Log.d(TAG, String.valueOf(dataManager.getDietListResponses().get(i).getDietNm()));
         }
     }
 

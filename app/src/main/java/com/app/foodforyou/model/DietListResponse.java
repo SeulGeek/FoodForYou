@@ -3,7 +3,7 @@ package com.app.foodforyou.model;
 import java.util.Date;
 
 // Response API
-public class RecommendDietListResponse {
+public class DietListResponse {
     private int cntntsNo; // 컨텐츠 번호
     private String dietNm; // 식단 명
     private String fdNm; // 음식 명

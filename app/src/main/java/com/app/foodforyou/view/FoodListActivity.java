@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.foodforyou.R;
-import com.app.foodforyou.model.RecommendDietDetail;
+import com.app.foodforyou.model.FoodRecipeDetail;
 import com.app.foodforyou.viewModel.NetworkConnectionStateMonitor;
 import com.app.foodforyou.viewModel.PreferenceManager;
 
@@ -23,12 +23,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class RecommendDietFoodListActivity extends AppCompatActivity {
+public class FoodListActivity extends AppCompatActivity {
 
     private Context mContext;
     private NetworkConnectionStateMonitor networkConnectionStateMonitor;
 
-    private RecommendDietFoodListAdapter adapter;
+    private FoodListAdapter adapter;
     private String mainCategoryName;
     private String cntntsNo;
     private ArrayList<String> foodName;
@@ -68,7 +68,7 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
-        adapter = new RecommendDietFoodListAdapter();
+        adapter = new FoodListAdapter();
         recyclerView.setAdapter(adapter);
     }
 
@@ -81,7 +81,7 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         for (int i = 0; i < foodName.size(); i++) {
-                            RecommendDietDetail response = new RecommendDietDetail();
+                            FoodRecipeDetail response = new FoodRecipeDetail();
                             response.setFdNm(foodName.get(i));
                             response.setRtnImageDc(foodImage.get(i));
 
@@ -93,10 +93,10 @@ public class RecommendDietFoodListActivity extends AppCompatActivity {
             }
         }).start();
 
-        adapter.setOnFoodItemClickListener(new RecommendDietFoodListAdapter.OnFoodItemClickListener() {
+        adapter.setOnFoodItemClickListener(new FoodListAdapter.OnFoodItemClickListener() {
             @Override
             public void onFoodItemClick(View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), FoodRecipeDetails.class);
+                Intent intent = new Intent(getApplicationContext(), FoodRecipeDetailsActivity.class);
                 intent.putExtra("mainCategoryName", mainCategoryName);
                 intent.putExtra("foodName", foodName.get(position));
                 intent.putExtra("foodImage", foodImage.get(position));

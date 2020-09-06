@@ -1,6 +1,6 @@
 package com.app.foodforyou.model;
 
-public class RecommendDietDetail {
+public class FoodRecipeDetail {
     private int cntntsNo; // 컨텐츠 번호
     private String dietDtlNm; // 식단 상세명
     private String dietNm; // 식단 명

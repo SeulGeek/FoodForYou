@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onClickCategory() {
-        intent = new Intent(getApplicationContext(), RecommendDietListActivity.class);
+        intent = new Intent(getApplicationContext(), DietListActivity.class);
 
         studyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
