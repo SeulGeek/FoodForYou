@@ -42,7 +42,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull FoodListAdapter.ViewHolder holder, int position) {
-        holder.onBind(response.get(position));
+        holder.onBindFoodListInformation(response.get(position));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
             });
         }
 
-        void onBind(FoodRecipeDetail data) {
+        void onBindFoodListInformation(FoodRecipeDetail data) {
             if (!TextUtils.isEmpty(data.getRtnImageDc())) {
                 Picasso.get()
                         .load(data.getRtnImageDc())

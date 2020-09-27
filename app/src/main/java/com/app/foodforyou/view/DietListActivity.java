@@ -26,6 +26,31 @@ import java.net.URL;
 public class DietListActivity extends AppCompatActivity {
 
     public static final String TAG = DietListActivity.class.getCanonicalName();
+
+    public static final String MAIN_CATEGORY_NAME_KEY = "mainCategoryName";
+
+    // API response's tag name
+    public static final String ITEM = "item";
+
+    // API response's element
+    public static final String CONTENTS_NO = "cntntsNo";
+    public static final String DIET_NAME = "dietNm";
+    public static final String FOOD_NAME = "fdNm";
+    public static final String CONTENTS_SUBJECT = "cntntsSj";
+    public static final String CONTENTS_CHARGER_NAME = "cntntsChargerEsntlNm";
+    public static final String REGISTER_DATE = "registDt";
+    public static final String CONTENTS_READ_COUNT = "cntntsRdcnt"; // the view count
+    public static final String FILE_SEPARATION_CODE = "rtnFileSeCode";
+    public static final String FILE_SEQUENCE= "rtnFileSn"; // file order
+    public static final String ORIGINAL_FILE_NAME= "rtnOriginFileNm";
+    public static final String SAVE_FILE_NAME= "rtnStreFileNu";
+    public static final String IMAGE_DESCRIPTION= "rtnImageDc";
+    public static final String THUMBNAIL_FILE_NAME= "rtnThumbFileNm";
+    public static final String IMAGE_SEPARATION_CODE= "rtnImgSeCode";
+
+    // SEND RESPONSE VALUE'S KEY
+    public static final String CONTENTS_NO_KEY = "cntntsNo";
+
     private NetworkConnectionStateMonitor networkConnectionStateMonitor;
 
     private Context mContext;
@@ -62,7 +87,7 @@ public class DietListActivity extends AppCompatActivity {
                     if (pageNo >= 1) {
                         pageNo += 1;
                     }
-                    //TODO: page가 없는 경우도 처리해주기
+                    //TODO: Do process non-exist page when user click add diet button
                     setRecommendDietListResponse();
                 }
             });
@@ -105,9 +130,9 @@ public class DietListActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new OnDietClickListener() {
             @Override
             public void onDietItemClick(DietListAdapter.ViewHolder holder, View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), FoodListActivity.class);
-                PreferenceManager.setString(mContext, "cntntsNo", String.valueOf(dataManager.getDietListResponses().get(position).getCntntsNo()));
-                PreferenceManager.setString(mContext,"mainCategoryName", mainCategoryName);
+                Intent intent = new Intent(DietListActivity.this, FoodListActivity.class);
+                PreferenceManager.setString(mContext, CONTENTS_NO_KEY, String.valueOf(dataManager.getDietListResponses().get(position).getCntntsNo()));
+                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, mainCategoryName);
                 startActivity(intent);
             }
         });
@@ -129,48 +154,55 @@ public class DietListActivity extends AppCompatActivity {
             int eventType = xpp.getEventType();
             String startTag = "";
             boolean isItemType = false;
+
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 if (eventType == XmlPullParser.START_DOCUMENT) {
-                    // XML 데이터 시작
+                    // The XML data starts
                 } else if (eventType == XmlPullParser.START_TAG) {
                     startTag = xpp.getName();
-                    if (startTag.equals("item")) {
+                    if (startTag.equals(ITEM)) {
                         isItemType = true;
                         dataManager.getDietListResponses().add(new DietListResponse());
                     }
                 } else if (eventType == XmlPullParser.TEXT) {
                     if (isItemType) {
-                        if (startTag.equals("cntntsNo")) {
-                            dataManager.getLastDietListData().setCntntsNo(Integer.parseInt(xpp.getText()));
-                        } else if (startTag.equals("dietNm")) {
-                            dataManager.getLastDietListData().setDietNm(xpp.getText());
-                        } else if (startTag.equals("fdNm")) {
+                        switch (startTag) {
+                            case CONTENTS_NO:
+                                dataManager.getLastDietListData().setCntntsNo(Integer.parseInt(xpp.getText()));
+                                break;
+                            case DIET_NAME:
+                                dataManager.getLastDietListData().setDietNm(xpp.getText());
+                                break;
+                            case FOOD_NAME:
 
-                        } else if (startTag.equals("cntntsSj")) {
+                            case CONTENTS_SUBJECT:
 
-                        } else if (startTag.equals("cntntsChargerEsntlNm")) {
+                            case CONTENTS_CHARGER_NAME:
 
-                        } else if (startTag.equals("registDt")) {
+                            case REGISTER_DATE:
 
-                        } else if (startTag.equals("cntntsRdcnt")) {
+                            case CONTENTS_READ_COUNT:
 
-                        } else if (startTag.equals("rtnFileSeCode")) {
+                            case FILE_SEPARATION_CODE:
 
-                        } else if (startTag.equals("rtnFileSn")) {
+                            case FILE_SEQUENCE:
 
-                        } else if (startTag.equals("rtnStreFileNu")) {
+                            case ORIGINAL_FILE_NAME:
 
-                        } else if (startTag.equals("rtnImageDc")) {
-                            dataManager.getLastDietListData().setRtnImageDc(xpp.getText());
-                        } else if (startTag.equals("rtnThumbFileNm")) {
+                            case SAVE_FILE_NAME:
 
-                        } else if (startTag.equals("rtnImgSeCode")) {
+                            case IMAGE_DESCRIPTION:
+                                dataManager.getLastDietListData().setRtnImageDc(xpp.getText());
+                                break;
+                            case THUMBNAIL_FILE_NAME:
 
+                            case IMAGE_SEPARATION_CODE:
+                                break;
                         }
                     }
                 } else if (eventType == XmlPullParser.END_TAG) {
                     String endTag = xpp.getName() ;
-                    if (endTag.equals("item")) {
+                    if (endTag.equals(ITEM)) {
                         startTag = "";
                         isItemType = false;
                     }
@@ -185,7 +217,6 @@ public class DietListActivity extends AppCompatActivity {
             Log.d(TAG, String.valueOf(dataManager.getDietListResponses().get(i).getDietNm()));
         }
     }
-
 
     @Override
     protected void onDestroy() {
