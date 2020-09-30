@@ -4,18 +4,18 @@ import java.util.ArrayList;
 
 public class DataManager {
 
-    ArrayList<RecommendDietListResponse> recommendDietListResponses = new ArrayList<>();
+    ArrayList<DietListResponse> dietListResponses = new ArrayList<>();
 
-    public ArrayList<RecommendDietListResponse> getRecommendDietListResponses() {
-        return recommendDietListResponses;
+    public ArrayList<DietListResponse> getDietListResponses() {
+        return dietListResponses;
     }
 
-    public void setRecommendDietListResponses(ArrayList<RecommendDietListResponse> recommendDietListResponses) {
-        this.recommendDietListResponses = recommendDietListResponses;
+    public void setDietListResponses(ArrayList<DietListResponse> dietListResponses) {
+        this.dietListResponses = dietListResponses;
     }
 
-    public RecommendDietListResponse getLastDietListData() {
-        return recommendDietListResponses.get(recommendDietListResponses.size() - 1);
+    public DietListResponse getLastDietListData() {
+        return dietListResponses.get(dietListResponses.size() - 1);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.app.foodforyou.model;
 
 // Request API
-public class RecommendDietList {
+public class DietListRequest {
     // required
     private String apiKey; // 발급받은 Open API 인증키
     private String dietSeCode; // 식단 구분코드

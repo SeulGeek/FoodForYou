@@ -12,15 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.foodforyou.R;
-import com.app.foodforyou.model.RecommendDietDetail;
+import com.app.foodforyou.model.FoodRecipeDetail;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<RecommendDietFoodListAdapter.ViewHolder> {
+public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHolder> {
 
-    private ArrayList<RecommendDietDetail> response = new ArrayList<>();
+    private ArrayList<FoodRecipeDetail> response = new ArrayList<>();
     private String mainCategoryName;
 
     public interface OnFoodItemClickListener {
@@ -35,14 +35,14 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
 
     @NonNull
     @Override
-    public RecommendDietFoodListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FoodListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommend_diet_food_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecommendDietFoodListAdapter.ViewHolder holder, int position) {
-        holder.onBind(response.get(position));
+    public void onBindViewHolder(@NonNull FoodListAdapter.ViewHolder holder, int position) {
+        holder.onBindFoodListInformation(response.get(position));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
         return response.size();
     }
 
-    public void addItem(RecommendDietDetail data, String mainCategoryName) {
+    public void addItem(FoodRecipeDetail data, String mainCategoryName) {
         this.mainCategoryName = mainCategoryName;
         response.add(data);
     }
@@ -80,7 +80,7 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
             });
         }
 
-        void onBind(RecommendDietDetail data) {
+        void onBindFoodListInformation(FoodRecipeDetail data) {
             if (!TextUtils.isEmpty(data.getRtnImageDc())) {
                 Picasso.get()
                         .load(data.getRtnImageDc())

@@ -13,7 +13,7 @@ import com.app.foodforyou.R;
 import com.app.foodforyou.viewModel.NetworkConnectionStateMonitor;
 import com.squareup.picasso.Picasso;
 
-public class FoodRecipeDetails extends AppCompatActivity {
+public class FoodRecipeDetailsActivity extends AppCompatActivity {
 
     public static final String NULL_VALUE = " - ";
 

@@ -11,15 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.foodforyou.R;
-import com.app.foodforyou.model.RecommendDietListResponse;
+import com.app.foodforyou.model.DietListResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDietListAdapter.ViewHolder>
+public class DietListAdapter extends RecyclerView.Adapter<DietListAdapter.ViewHolder>
         implements OnDietClickListener{
 
-    private ArrayList<RecommendDietListResponse> response = new ArrayList<>();
+    private ArrayList<DietListResponse> response = new ArrayList<>();
     private String mainCategoryName;
     private OnDietClickListener listener;
 
@@ -41,7 +41,7 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
         return response.size();
     }
 
-    public void addItem(RecommendDietListResponse data, String mainCategoryName) {
+    public void addItem(DietListResponse data, String mainCategoryName) {
         this.mainCategoryName = mainCategoryName;
         response.add(data);
     }
@@ -84,7 +84,7 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
             });
         }
 
-        void onBind(RecommendDietListResponse data, String mainCategoryName) {
+        void onBind(DietListResponse data, String mainCategoryName) {
             Picasso.get().load(data.getRtnImageDc()).into(imageView);
             mainCategoryNameTextView.setText(mainCategoryName);
             dietNameTextView.setText(data.getDietNm());

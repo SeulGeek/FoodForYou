@@ -27,6 +27,16 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    // API response's tag name
+    public static final String ITEM = "item";
+
+    // API response's element
+    public static final String DIET_SEPARATION_CODE = "dietSeCode";
+
+    // SEND RESPONSE VALUE'S KEY
+    public static final String MAIN_CATEGORY_NAME_KEY = "mainCategoryName";
+    public static final String DIET_SEPARATION_CODE_KEY = "dietSeCode";
+
     private Context mContext;
     private NetworkConnectionStateMonitor networkConnectionStateMonitor;
 
@@ -138,9 +148,9 @@ public class MainActivity extends AppCompatActivity {
             while(eventType != XmlPullParser.END_DOCUMENT) {
                 switch (eventType) {
                     case XmlPullParser.START_TAG:
-                        if (xpp.getName().equals("item")) { // fist research result
+                        if (xpp.getName().equals(ITEM)) { // fist research result
 
-                        } else if (xpp.getName().equals("dietSeCode")) {
+                        } else if (xpp.getName().equals(DIET_SEPARATION_CODE)) {
                             xpp.next();
                             dietSeCode.add(xpp.getText());
                         }
@@ -154,13 +164,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onClickCategory() {
-        intent = new Intent(getApplicationContext(), RecommendDietListActivity.class);
+        intent = new Intent(this, DietListActivity.class);
 
         studyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(0));
-                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.study_diet_main_category_name));
+                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, dietSeCode.get(0));
+                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.study_diet_main_category_name));
                 startActivity(intent);
             }
         });
@@ -168,8 +178,8 @@ public class MainActivity extends AppCompatActivity {
         healthyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(1));
-                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.healthy_diet_main_category_name));
+                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, dietSeCode.get(1));
+                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.healthy_diet_main_category_name));
                 startActivity(intent);
             }
         });
@@ -177,8 +187,8 @@ public class MainActivity extends AppCompatActivity {
         homeMealMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(2));
-                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.home_meal_main_category_name));
+                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, dietSeCode.get(2));
+                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.home_meal_main_category_name));
                 startActivity(intent);
             }
         });
@@ -186,8 +196,8 @@ public class MainActivity extends AppCompatActivity {
         eventDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(3));
-                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.event_diet_main_category_name));
+                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, dietSeCode.get(3));
+                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.event_diet_main_category_name));
                 startActivity(intent);
             }
         });
@@ -195,8 +205,8 @@ public class MainActivity extends AppCompatActivity {
         refreshDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(4));
-                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.refresh_diet_main_category_name));
+                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, dietSeCode.get(4));
+                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.refresh_diet_main_category_name));
                 startActivity(intent);
             }
         });
