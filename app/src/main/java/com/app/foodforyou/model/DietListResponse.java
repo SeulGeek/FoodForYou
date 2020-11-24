@@ -4,19 +4,19 @@ import java.util.Date;
 
 // Response API
 public class DietListResponse {
-    private int cntntsNo; // 컨텐츠 번호
-    private String dietNm; // 식단 명
-    private String fdNm; // 음식 명
-    private String cntntsSj; // 컨텐츠 제목
-    private String cntntsChargerEsntlNm; // 담당자 명
-    private Date registDt; // 등록 일시
-    private int cntntsRdcnt; // 조회수
-    private int rtnFileSeCode; // 파일 구분 코드
-    private int rtnFileSn; // 파일 순번
-    private int rtnStreFileNm; // 원본 파일명
-    private String rtnImageDc; // 이미지  설명
-    private String rtnThumbFileNm; // 썸네일 파일명
-    private int rtnImgSeCode; // 이미지 구분 코드
+    private int cntntsNo; // 컨텐츠 번호 (Contents Number)
+    private String dietNm; // 식단 명 (Diet Name)
+    private String fdNm; // 음식 명 (Food Name)
+    private String cntntsSj; // 컨텐츠 제목 (Contents Subject)
+    private String cntntsChargerEsntlNm; // 담당자 명 (The person in charge)
+    private Date registDt; // 등록 일시 (Registration Date)
+    private int cntntsRdcnt; // 조회수 (View count)
+    private int rtnFileSeCode; // 파일 구분 코드 (Separation code of file)
+    private int rtnFileSn; // 파일 순번 (Order number of file)
+    private int rtnStreFileNm; // 원본 파일명 (Original file's name)
+    private String rtnImageDc; // 이미지  설명 (Description of image)
+    private String rtnThumbFileNm; // 썸네일 파일명 (Thumbnail file's name)
+    private int rtnImgSeCode; // 이미지 구분 코드 (Separation code of image)
 
     public int getCntntsNo() {
         return cntntsNo;

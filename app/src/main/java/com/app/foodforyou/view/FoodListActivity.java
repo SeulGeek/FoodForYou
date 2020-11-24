@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class FoodListActivity extends AppCompatActivity {
 
     private Context mContext;
-    private NetworkConnectionStateMonitor networkConnectionStateMonitor;
+    private NetworkConnectionStateMonitor mNetworkConnectionStateMonitor;
 
     /**
     *  RESPONSE ELEMENT
@@ -52,17 +52,17 @@ public class FoodListActivity extends AppCompatActivity {
     public static final String PROTEIN_INFO_KEY = "proteinInfo";
     public static final String LIPID_INFO_KEY = "lipidInfo";
 
-    private FoodListAdapter adapter;
-    private String mainCategoryName;
-    private String cntntsNo;
-    private ArrayList<String> foodName;
-    private ArrayList<String> foodImage;
-    private ArrayList<String> materialInfo;
-    private ArrayList<String> recipeOrder;
-    private ArrayList<String> calorieInfo;
-    private ArrayList<String> carbohydratesInfo;
-    private ArrayList<String> proteinInfo;
-    private ArrayList<String> lipidInfo;
+    private FoodListAdapter mAdapter;
+    private String mMainCategoryName;
+    private String mCntntsNo;
+    private ArrayList<String> mFoodName;
+    private ArrayList<String> mFoodImage;
+    private ArrayList<String> mMaterialInfo;
+    private ArrayList<String> mRecipeOrder;
+    private ArrayList<String> mCalorieInfo;
+    private ArrayList<String> mCarbohydratesInfo;
+    private ArrayList<String> mProteinInfo;
+    private ArrayList<String> mLipidInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,20 +71,20 @@ public class FoodListActivity extends AppCompatActivity {
 
         mContext = this;
 
-        if (networkConnectionStateMonitor == null) {
-            networkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
-            networkConnectionStateMonitor.register();
+        if (mNetworkConnectionStateMonitor == null) {
+            mNetworkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
+            mNetworkConnectionStateMonitor.register();
         }
 
-        if (networkConnectionStateMonitor != null) {
+        if (mNetworkConnectionStateMonitor != null) {
             init();
             setRecommendDietFoodListResponse();
         }
     }
 
     public void init() {
-        cntntsNo = PreferenceManager.getString(mContext, "cntntsNo");
-        mainCategoryName = PreferenceManager.getString(mContext, "mainCategoryName");
+        mCntntsNo = PreferenceManager.getString(mContext, "cntntsNo");
+        mMainCategoryName = PreferenceManager.getString(mContext, "mainCategoryName");
 
         RecyclerView recyclerView = findViewById(R.id.diet_food_list_category_recycler_view);
 
@@ -92,8 +92,8 @@ public class FoodListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
-        adapter = new FoodListAdapter();
-        recyclerView.setAdapter(adapter);
+        mAdapter = new FoodListAdapter();
+        recyclerView.setAdapter(mAdapter);
     }
 
     private void setRecommendDietFoodListResponse() {
@@ -104,32 +104,32 @@ public class FoodListActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < foodName.size(); i++) {
+                        for (int i = 0; i < mFoodName.size(); i++) {
                             FoodRecipeDetail response = new FoodRecipeDetail();
-                            response.setFdNm(foodName.get(i));
-                            response.setRtnImageDc(foodImage.get(i));
+                            response.setFdNm(mFoodName.get(i));
+                            response.setRtnImageDc(mFoodImage.get(i));
 
-                            adapter.addItem(response, mainCategoryName);
+                            mAdapter.addItem(response, mMainCategoryName);
                         }
-                        adapter.notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
                     }
                 });
             }
         }).start();
 
-        adapter.setOnFoodItemClickListener(new FoodListAdapter.OnFoodItemClickListener() {
+        mAdapter.setOnFoodItemClickListener(new FoodListAdapter.OnFoodItemClickListener() {
             @Override
             public void onFoodItemClick(View view, int position) {
                 Intent intent = new Intent(FoodListActivity.this, FoodRecipeDetailsActivity.class);
-                intent.putExtra(MAIN_CATEGORY_NAME_KEY, mainCategoryName);
-                intent.putExtra(FOOD_NAME_KEY, foodName.get(position));
-                intent.putExtra(FOOD_IMAGE_KEY, foodImage.get(position));
-                intent.putExtra(MATERIAL_INFO_KEY, materialInfo.get(position));
-                intent.putExtra(RECIPE_ORDER_KEY, recipeOrder.get(position));
-                intent.putExtra(CALORIE_INFO_KEY, calorieInfo.get(position));
-                intent.putExtra(CARBOHYDRATES_INFO_KEY, carbohydratesInfo.get(position));
-                intent.putExtra(PROTEIN_INFO_KEY, proteinInfo.get(position));
-                intent.putExtra(LIPID_INFO_KEY, lipidInfo.get(position));
+                intent.putExtra(MAIN_CATEGORY_NAME_KEY, mMainCategoryName);
+                intent.putExtra(FOOD_NAME_KEY, mFoodName.get(position));
+                intent.putExtra(FOOD_IMAGE_KEY, mFoodImage.get(position));
+                intent.putExtra(MATERIAL_INFO_KEY, mMaterialInfo.get(position));
+                intent.putExtra(RECIPE_ORDER_KEY, mRecipeOrder.get(position));
+                intent.putExtra(CALORIE_INFO_KEY, mCalorieInfo.get(position));
+                intent.putExtra(CARBOHYDRATES_INFO_KEY, mCarbohydratesInfo.get(position));
+                intent.putExtra(PROTEIN_INFO_KEY, mProteinInfo.get(position));
+                intent.putExtra(LIPID_INFO_KEY, mLipidInfo.get(position));
 
                 startActivity(intent);
             }
@@ -139,17 +139,17 @@ public class FoodListActivity extends AppCompatActivity {
     private void getRecommendDietFoodListResponse() {
         String apiKey = getString(R.string.recommended_food_recipe_api_key);
 
-        foodName = new ArrayList<>();
-        foodImage = new ArrayList<>();
-        materialInfo = new ArrayList<>();
-        recipeOrder = new ArrayList<>();
-        calorieInfo = new ArrayList<>();
-        carbohydratesInfo = new ArrayList<>();
-        proteinInfo = new ArrayList<>();
-        lipidInfo = new ArrayList<>();
+        mFoodName = new ArrayList<>();
+        mFoodImage = new ArrayList<>();
+        mMaterialInfo = new ArrayList<>();
+        mRecipeOrder = new ArrayList<>();
+        mCalorieInfo = new ArrayList<>();
+        mCarbohydratesInfo = new ArrayList<>();
+        mProteinInfo = new ArrayList<>();
+        mLipidInfo = new ArrayList<>();
 
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/recomendDietDtl?apiKey=" + apiKey
-                + "&cntntsNo=" + cntntsNo;
+                + "&cntntsNo=" + mCntntsNo;
 
         try {
             URL url = new URL(apiUrl);
@@ -169,35 +169,35 @@ public class FoodListActivity extends AppCompatActivity {
                         switch (tag) {
                             case FOOD_NAME:
                                 xpp.next();
-                                foodName.add(xpp.getText());
+                                mFoodName.add(xpp.getText());
                                 break;
                             case IMAGE_DESCRIPTION:
                                 xpp.next();
-                                foodImage.add(xpp.getText());
+                                mFoodImage.add(xpp.getText());
                                 break;
                             case MATERIAL_INFORMATION:
                                 xpp.next();
-                                materialInfo.add(xpp.getText());
+                                mMaterialInfo.add(xpp.getText());
                                 break;
                             case COOKING_METHOD_INFORMATION:
                                 xpp.next();
-                                recipeOrder.add(xpp.getText());
+                                mRecipeOrder.add(xpp.getText());
                                 break;
                             case CALORIE_INFORMATION:
                                 xpp.next();
-                                calorieInfo.add(xpp.getText());
+                                mCalorieInfo.add(xpp.getText());
                                 break;
                             case CARBOHYDRATES_INFORMATION:
                                 xpp.next();
-                                carbohydratesInfo.add(xpp.getText());
+                                mCarbohydratesInfo.add(xpp.getText());
                                 break;
                             case PROTEIN_INFORMATION:
                                 xpp.next();
-                                proteinInfo.add(xpp.getText());
+                                mProteinInfo.add(xpp.getText());
                                 break;
                             case LIPID_INFORMATION:
                                 xpp.next();
-                                lipidInfo.add(xpp.getText());
+                                mLipidInfo.add(xpp.getText());
                                 break;
                         }
                         break;
@@ -214,6 +214,6 @@ public class FoodListActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        networkConnectionStateMonitor.unRegister();
+        mNetworkConnectionStateMonitor.unRegister();
     }
 }

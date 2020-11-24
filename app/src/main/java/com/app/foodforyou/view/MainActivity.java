@@ -38,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
     public static final String DIET_SEPARATION_CODE_KEY = "dietSeCode";
 
     private Context mContext;
-    private NetworkConnectionStateMonitor networkConnectionStateMonitor;
+    private NetworkConnectionStateMonitor mNetworkConnectionStateMonitor;
 
-    private LinearLayout studyDietMainCategory;
-    private LinearLayout healthyDietMainCategory;
-    private LinearLayout homeMealMainCategory;
-    private LinearLayout eventDietMainCategory;
-    private LinearLayout refreshDietMainCategory;
+    private LinearLayout mStudyDietMainCategory;
+    private LinearLayout mHealthyDietMainCategory;
+    private LinearLayout mHomeMealMainCategory;
+    private LinearLayout mEventDietMainCategory;
+    private LinearLayout mRefreshDietMainCategory;
 
-    private ArrayList<String> dietSeCode;
+    private ArrayList<String> mDietSeCode;
 
-    private Intent intent;
+    private Intent mIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        if (networkConnectionStateMonitor != null) {
+        if (mNetworkConnectionStateMonitor != null) {
             getMainCategoryTitleResponse();
         }
     }
@@ -65,13 +65,13 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         mContext = this;
 
-        if (networkConnectionStateMonitor == null) {
-            networkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
-            networkConnectionStateMonitor.register();
+        if (mNetworkConnectionStateMonitor == null) {
+            mNetworkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
+            mNetworkConnectionStateMonitor.register();
 
 
             //TODO: Add progress dialog (or bar) after first release
-            if (!networkConnectionStateMonitor.isConnected()) {
+            if (!mNetworkConnectionStateMonitor.isConnected()) {
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(mContext)
                         .setCancelable(false)
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         positiveButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (networkConnectionStateMonitor.isConnected()) {
+                                if (mNetworkConnectionStateMonitor.isConnected()) {
                                     alertDialog.dismiss();
                                     Toast.makeText(mContext, R.string.network_connected_message, Toast.LENGTH_SHORT).show();
                                 } else {
@@ -101,11 +101,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        studyDietMainCategory = findViewById(R.id.study_diet_main_category_layout);
-        healthyDietMainCategory = findViewById(R.id.healthy_diet_main_category_layout);
-        homeMealMainCategory = findViewById(R.id.home_meal_main_category_layout);
-        eventDietMainCategory = findViewById(R.id.event_diet_main_category_layout);
-        refreshDietMainCategory = findViewById(R.id.refresh_diet_main_category_layout);
+        mStudyDietMainCategory = findViewById(R.id.study_diet_main_category_layout);
+        mHealthyDietMainCategory = findViewById(R.id.healthy_diet_main_category_layout);
+        mHomeMealMainCategory = findViewById(R.id.home_meal_main_category_layout);
+        mEventDietMainCategory = findViewById(R.id.event_diet_main_category_layout);
+        mRefreshDietMainCategory = findViewById(R.id.refresh_diet_main_category_layout);
     }
 
     private void getMainCategoryTitleResponse() {
@@ -117,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i< dietSeCode.size(); i++) {
+                        for (int i = 0; i< mDietSeCode.size(); i++) {
                             // 각 List의 값들을 MainCategory 객체에 set 해줍니다
                             MainCategory mainCategoryData = new MainCategory();
-                            mainCategoryData.setDietSeCode(dietSeCode.get(i));
+                            mainCategoryData.setDietSeCode(mDietSeCode.get(i));
                         }
                     }
                 });
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getMainCategoryResponse() {
-        dietSeCode = new ArrayList<>();
+        mDietSeCode = new ArrayList<>();
 
         String apiKey = getString(R.string.recommended_food_recipe_api_key);
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/mainCategoryList?apiKey=" + apiKey;
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
                         } else if (xpp.getName().equals(DIET_SEPARATION_CODE)) {
                             xpp.next();
-                            dietSeCode.add(xpp.getText());
+                            mDietSeCode.add(xpp.getText());
                         }
                         break;
                 }
@@ -164,50 +164,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onClickCategory() {
-        intent = new Intent(this, DietListActivity.class);
+        mIntent = new Intent(this, DietListActivity.class);
 
-        studyDietMainCategory.setOnClickListener(new View.OnClickListener() {
+        mStudyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, dietSeCode.get(0));
+                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(0));
                 PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.study_diet_main_category_name));
-                startActivity(intent);
+                startActivity(mIntent);
             }
         });
 
-        healthyDietMainCategory.setOnClickListener(new View.OnClickListener() {
+        mHealthyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, dietSeCode.get(1));
+                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(1));
                 PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.healthy_diet_main_category_name));
-                startActivity(intent);
+                startActivity(mIntent);
             }
         });
 
-        homeMealMainCategory.setOnClickListener(new View.OnClickListener() {
+        mHomeMealMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, dietSeCode.get(2));
+                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(2));
                 PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.home_meal_main_category_name));
-                startActivity(intent);
+                startActivity(mIntent);
             }
         });
 
-        eventDietMainCategory.setOnClickListener(new View.OnClickListener() {
+        mEventDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, dietSeCode.get(3));
+                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(3));
                 PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.event_diet_main_category_name));
-                startActivity(intent);
+                startActivity(mIntent);
             }
         });
 
-        refreshDietMainCategory.setOnClickListener(new View.OnClickListener() {
+        mRefreshDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, dietSeCode.get(4));
+                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(4));
                 PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.refresh_diet_main_category_name));
-                startActivity(intent);
+                startActivity(mIntent);
             }
         });
     }
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        networkConnectionStateMonitor.unRegister();
+        mNetworkConnectionStateMonitor.unRegister();
     }
 
 }
