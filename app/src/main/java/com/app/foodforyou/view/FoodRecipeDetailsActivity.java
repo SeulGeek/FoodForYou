@@ -75,16 +75,19 @@ public class FoodRecipeDetailsActivity extends AppCompatActivity {
     }
 
     private void getApiResponse() {
-        Intent intent = getIntent();
-        mMainCategoryName = intent.getStringExtra("mainCategoryName");
-        mFoodImage = intent.getStringExtra("foodImage");
-        mFoodName = intent.getStringExtra("foodName");
-        mFoodMaterial = intent.getStringExtra("materialInfo");
-        mRecipeOrder = intent.getStringExtra("recipeOrder");
-        mCalorieInfo = intent.getStringExtra("calorieInfo");
-        mCarbohydratesInfo = intent.getStringExtra("carbohydratesInfo");
-        mProteinInfo = intent.getStringExtra("proteinInfo");
-        mLipidInfo = intent.getStringExtra("lipidInfo");
+        if (getIntent() == null) {
+            return;
+        }
+
+        mMainCategoryName = getIntent().getStringExtra(FoodListActivity.MAIN_CATEGORY_NAME_KEY);
+        mFoodImage = getIntent().getStringExtra(FoodListActivity.FOOD_IMAGE_KEY);
+        mFoodName = getIntent().getStringExtra(FoodListActivity.FOOD_NAME_KEY);
+        mFoodMaterial = getIntent().getStringExtra(FoodListActivity.MATERIAL_INFO_KEY);
+        mRecipeOrder = getIntent().getStringExtra(FoodListActivity.RECIPE_ORDER_KEY);
+        mCalorieInfo = getIntent().getStringExtra(FoodListActivity.CALORIE_INFO_KEY);
+        mCarbohydratesInfo = getIntent().getStringExtra(FoodListActivity.CARBOHYDRATES_INFO_KEY);
+        mProteinInfo = getIntent().getStringExtra(FoodListActivity.PROTEIN_INFO_KEY);
+        mLipidInfo = getIntent().getStringExtra(FoodListActivity.LIPID_INFO_KEY);
     }
 
     private void setDataOnView() {
