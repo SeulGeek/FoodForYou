@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -27,6 +29,7 @@ public class FoodListActivity extends AppCompatActivity {
 
     private Context mContext;
     private NetworkConnectionStateMonitor mNetworkConnectionStateMonitor;
+    private LinearLayout mProgressBar;
 
     /**
     *  RESPONSE ELEMENT
@@ -86,8 +89,9 @@ public class FoodListActivity extends AppCompatActivity {
         mCntntsNo = PreferenceManager.getString(mContext, "cntntsNo");
         mMainCategoryName = PreferenceManager.getString(mContext, "mainCategoryName");
 
-        RecyclerView recyclerView = findViewById(R.id.diet_food_list_category_recycler_view);
+        mProgressBar = findViewById(R.id.progress_bar);
 
+        RecyclerView recyclerView = findViewById(R.id.diet_food_list_category_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
@@ -97,6 +101,7 @@ public class FoodListActivity extends AppCompatActivity {
     }
 
     private void setRecommendDietFoodListResponse() {
+        showProgressBar();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -105,6 +110,7 @@ public class FoodListActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         for (int i = 0; i < mFoodName.size(); i++) {
+                            hideProgressBar();
                             FoodRecipeDetail response = new FoodRecipeDetail();
                             response.setFdNm(mFoodName.get(i));
                             response.setRtnImageDc(mFoodImage.get(i));
@@ -215,5 +221,15 @@ public class FoodListActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mNetworkConnectionStateMonitor.unRegister();
+    }
+
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 }

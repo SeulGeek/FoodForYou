@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,7 +63,7 @@ public class DietListActivity extends AppCompatActivity {
 
     private RelativeLayout mAddItemButton;
     private DietListAdapter mAdapter;
-
+    private LinearLayout mProgressBar;
     private DataManager mDataManager;
 
     @Override
@@ -100,6 +102,8 @@ public class DietListActivity extends AppCompatActivity {
         mDietSeCode = PreferenceManager.getString(mContext, "dietSeCode");
         mMainCategoryName = PreferenceManager.getString(mContext, "mainCategoryName");
 
+        mProgressBar = findViewById(R.id.progress_bar);
+
         mDataManager = new DataManager();
         RecyclerView recyclerView = findViewById(R.id.diet_list_category_recycler_view);
         mAddItemButton = findViewById(R.id.add_diet_button);
@@ -109,6 +113,7 @@ public class DietListActivity extends AppCompatActivity {
     }
 
     private void setRecommendDietListResponse() {
+        showProgressBar();
         // Get Api response
         new Thread(new Runnable() {
             @Override
@@ -118,6 +123,8 @@ public class DietListActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         for (int i = mCurrentItemSize; i < mDataManager.getDietListResponses().size(); i++) {
+                            hideProgressBar();
+
                             mAdapter.addItem(mDataManager.getDietListResponses().get(i), mMainCategoryName);
                             mAdapter.notifyDataSetChanged();
                             mCurrentItemSize = mDataManager.getDietListResponses().size();
@@ -224,4 +231,13 @@ public class DietListActivity extends AppCompatActivity {
         mNetworkConnectionStateMonitor.unRegister();
     }
 
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
 }
