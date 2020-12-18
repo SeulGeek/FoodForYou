@@ -18,27 +18,27 @@ public class FoodRecipeDetailsActivity extends AppCompatActivity {
     public static final String NULL_VALUE = " - ";
 
     private Context mContext;
-    private NetworkConnectionStateMonitor networkConnectionStateMonitor;
+    private NetworkConnectionStateMonitor mNetworkConnectionStateMonitor;
 
-    private String foodImage;
-    private String mainCategoryName;
-    private String foodName;
-    private String foodMaterial;
-    private String recipeOrder;
-    private String calorieInfo;
-    private String carbohydratesInfo;
-    private String proteinInfo;
-    private String lipidInfo;
+    private String mFoodImage;
+    private String mMainCategoryName;
+    private String mFoodName;
+    private String mFoodMaterial;
+    private String mRecipeOrder;
+    private String mCalorieInfo;
+    private String mCarbohydratesInfo;
+    private String mProteinInfo;
+    private String mLipidInfo;
 
-    private ImageView foodImageView;
-    private TextView mainCategoryNameTextView;
-    private TextView foodNameTextView;
-    private TextView foodMaterialTextView;
-    private TextView recipeOrderTextView;
-    private TextView calorieInfoTextView;
-    private TextView carbohydratesInfoTextView;
-    private TextView proteinInfoTextView;
-    private TextView lipidInfoTextView;
+    private ImageView mFoodImageView;
+    private TextView mMainCategoryNameTextView;
+    private TextView mFoodNameTextView;
+    private TextView mFoodMaterialTextView;
+    private TextView mRecipeOrderTextView;
+    private TextView mCalorieInfoTextView;
+    private TextView mCarbohydratesInfoTextView;
+    private TextView mProteinInfoTextView;
+    private TextView mLipidInfoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +47,12 @@ public class FoodRecipeDetailsActivity extends AppCompatActivity {
 
         mContext = this;
 
-        if (networkConnectionStateMonitor == null) {
-            networkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
-            networkConnectionStateMonitor.register();
+        if (mNetworkConnectionStateMonitor == null) {
+            mNetworkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
+            mNetworkConnectionStateMonitor.register();
         }
 
-        if (networkConnectionStateMonitor != null) {
+        if (mNetworkConnectionStateMonitor != null) {
             init();
 
             getApiResponse();
@@ -63,71 +63,74 @@ public class FoodRecipeDetailsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        foodImageView = findViewById(R.id.food_image_view);
-        mainCategoryNameTextView = findViewById(R.id.main_category_name_text_view);
-        foodNameTextView = findViewById(R.id.food_name_text_view);
-        foodMaterialTextView = findViewById(R.id.food_material_text_view);
-        recipeOrderTextView = findViewById(R.id.recipe_order_text_view);
-        calorieInfoTextView = findViewById(R.id.calorie_info_text_view);
-        carbohydratesInfoTextView = findViewById(R.id.carbohydrates_info_text_view);
-        proteinInfoTextView = findViewById(R.id.protein_info_text_view);
-        lipidInfoTextView = findViewById(R.id.lipid_info_text_view);
+        mFoodImageView = findViewById(R.id.food_image_view);
+        mMainCategoryNameTextView = findViewById(R.id.main_category_name_text_view);
+        mFoodNameTextView = findViewById(R.id.food_name_text_view);
+        mFoodMaterialTextView = findViewById(R.id.food_material_text_view);
+        mRecipeOrderTextView = findViewById(R.id.recipe_order_text_view);
+        mCalorieInfoTextView = findViewById(R.id.calorie_info_text_view);
+        mCarbohydratesInfoTextView = findViewById(R.id.carbohydrates_info_text_view);
+        mProteinInfoTextView = findViewById(R.id.protein_info_text_view);
+        mLipidInfoTextView = findViewById(R.id.lipid_info_text_view);
     }
 
     private void getApiResponse() {
-        Intent intent = getIntent();
-        mainCategoryName = intent.getStringExtra("mainCategoryName");
-        foodImage = intent.getStringExtra("foodImage");
-        foodName = intent.getStringExtra("foodName");
-        foodMaterial = intent.getStringExtra("materialInfo");
-        recipeOrder = intent.getStringExtra("recipeOrder");
-        calorieInfo = intent.getStringExtra("calorieInfo");
-        carbohydratesInfo = intent.getStringExtra("carbohydratesInfo");
-        proteinInfo = intent.getStringExtra("proteinInfo");
-        lipidInfo = intent.getStringExtra("lipidInfo");
+        if (getIntent() == null) {
+            return;
+        }
+
+        mMainCategoryName = getIntent().getStringExtra(FoodListActivity.MAIN_CATEGORY_NAME_KEY);
+        mFoodImage = getIntent().getStringExtra(FoodListActivity.FOOD_IMAGE_KEY);
+        mFoodName = getIntent().getStringExtra(FoodListActivity.FOOD_NAME_KEY);
+        mFoodMaterial = getIntent().getStringExtra(FoodListActivity.MATERIAL_INFO_KEY);
+        mRecipeOrder = getIntent().getStringExtra(FoodListActivity.RECIPE_ORDER_KEY);
+        mCalorieInfo = getIntent().getStringExtra(FoodListActivity.CALORIE_INFO_KEY);
+        mCarbohydratesInfo = getIntent().getStringExtra(FoodListActivity.CARBOHYDRATES_INFO_KEY);
+        mProteinInfo = getIntent().getStringExtra(FoodListActivity.PROTEIN_INFO_KEY);
+        mLipidInfo = getIntent().getStringExtra(FoodListActivity.LIPID_INFO_KEY);
     }
 
     private void setDataOnView() {
-        if (!TextUtils.isEmpty(foodImage)) {
-            Picasso.get().load(foodImage).into(foodImageView);
-            foodImageView.setPadding(0,0,0,0);
+        if (!TextUtils.isEmpty(mFoodImage)) {
+            Picasso.get().load(mFoodImage).into(mFoodImageView);
+            mFoodImageView.setPadding(0,0,0,0);
         } else {
-            foodImageView.setImageResource(R.drawable.img_none);
-            foodImageView.setPadding(0,40,0,0);
+            mFoodImageView.setImageResource(R.drawable.img_none);
+            mFoodImageView.setPadding(0,40,0,0);
         }
-        mainCategoryNameTextView.setText(mainCategoryName);
-        foodNameTextView.setText(foodName);
-        foodMaterialTextView.setText(foodMaterial);
-        recipeOrderTextView.setText(recipeOrder);
+        mMainCategoryNameTextView.setText(mMainCategoryName);
+        mFoodNameTextView.setText(mFoodName);
+        mFoodMaterialTextView.setText(mFoodMaterial);
+        mRecipeOrderTextView.setText(mRecipeOrder);
 
-        if (!TextUtils.isEmpty(calorieInfo)) {
-            calorieInfoTextView.setText(getString(R.string.kcal, calorieInfo));
+        if (!TextUtils.isEmpty(mCalorieInfo)) {
+            mCalorieInfoTextView.setText(getString(R.string.kcal, mCalorieInfo));
         } else {
-            calorieInfoTextView.setText(getString(R.string.kcal, NULL_VALUE));
-        }
-
-        if (!TextUtils.isEmpty(carbohydratesInfo)) {
-            carbohydratesInfoTextView.setText(getString(R.string.gram, carbohydratesInfo));
-        } else {
-            carbohydratesInfoTextView.setText(getString(R.string.gram, NULL_VALUE));
+            mCalorieInfoTextView.setText(getString(R.string.kcal, NULL_VALUE));
         }
 
-        if (!TextUtils.isEmpty(proteinInfo)) {
-            proteinInfoTextView.setText(getString(R.string.gram, proteinInfo));
+        if (!TextUtils.isEmpty(mCarbohydratesInfo)) {
+            mCarbohydratesInfoTextView.setText(getString(R.string.gram, mCarbohydratesInfo));
         } else {
-            proteinInfoTextView.setText(getString(R.string.gram, NULL_VALUE));
+            mCarbohydratesInfoTextView.setText(getString(R.string.gram, NULL_VALUE));
         }
 
-        if (!TextUtils.isEmpty(lipidInfo)) {
-            lipidInfoTextView.setText(getString(R.string.gram, lipidInfo));
+        if (!TextUtils.isEmpty(mProteinInfo)) {
+            mProteinInfoTextView.setText(getString(R.string.gram, mProteinInfo));
         } else {
-            lipidInfoTextView.setText(getString(R.string.gram, NULL_VALUE));
+            mProteinInfoTextView.setText(getString(R.string.gram, NULL_VALUE));
+        }
+
+        if (!TextUtils.isEmpty(mLipidInfo)) {
+            mLipidInfoTextView.setText(getString(R.string.gram, mLipidInfo));
+        } else {
+            mLipidInfoTextView.setText(getString(R.string.gram, NULL_VALUE));
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        networkConnectionStateMonitor.unRegister();
+        mNetworkConnectionStateMonitor.unRegister();
     }
 }

@@ -19,41 +19,40 @@ import java.util.ArrayList;
 public class DietListAdapter extends RecyclerView.Adapter<DietListAdapter.ViewHolder>
         implements OnDietClickListener{
 
-    private ArrayList<DietListResponse> response = new ArrayList<>();
-    private String mainCategoryName;
-    private OnDietClickListener listener;
-
+    private ArrayList<DietListResponse> mResponse = new ArrayList<>();
+    private String mMainCategoryName;
+    private OnDietClickListener mListener;
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommend_diet_list_item, parent, false);
-        return new ViewHolder(view, listener) ;
+        return new ViewHolder(view, mListener) ;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.onBind(response.get(position), mainCategoryName);
+        holder.onBind(mResponse.get(position), mMainCategoryName);
     }
 
     @Override
     public int getItemCount() {
-        return response.size();
+        return mResponse.size();
     }
 
     public void addItem(DietListResponse data, String mainCategoryName) {
-        this.mainCategoryName = mainCategoryName;
-        response.add(data);
+        this.mMainCategoryName = mainCategoryName;
+        mResponse.add(data);
     }
 
     public void setOnItemClickListener(OnDietClickListener listener) {
-        this.listener = listener;
+        this.mListener = listener;
     }
 
     @Override
     public void onDietItemClick(ViewHolder holder, View view, int position) {
-        if (listener != null) {
-            listener.onDietItemClick(holder, view, position);
+        if (mListener != null) {
+            mListener.onDietItemClick(holder, view, position);
         }
     }
 

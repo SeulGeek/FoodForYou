@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,18 +53,18 @@ public class DietListActivity extends AppCompatActivity {
     // SEND RESPONSE VALUE'S KEY
     public static final String CONTENTS_NO_KEY = "cntntsNo";
 
-    private NetworkConnectionStateMonitor networkConnectionStateMonitor;
+    private NetworkConnectionStateMonitor mNetworkConnectionStateMonitor;
 
     private Context mContext;
-    private int pageNo = 1;
-    private int currentItemSize = 0;
-    private String mainCategoryName;
-    private String dietSeCode;
+    private int mPageNo = 1;
+    private int mCurrentItemSize = 0;
+    private String mMainCategoryName;
+    private String mDietSeCode;
 
-    private RelativeLayout addItemButton;
-    private DietListAdapter adapter;
-
-    private DataManager dataManager;
+    private RelativeLayout mAddItemButton;
+    private DietListAdapter mAdapter;
+    private LinearLayout mProgressBar;
+    private DataManager mDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,21 +73,21 @@ public class DietListActivity extends AppCompatActivity {
 
         mContext = this;
 
-        if (networkConnectionStateMonitor == null) {
-            networkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
-            networkConnectionStateMonitor.register();
+        if (mNetworkConnectionStateMonitor == null) {
+            mNetworkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
+            mNetworkConnectionStateMonitor.register();
         }
 
-        if (networkConnectionStateMonitor != null) {
+        if (mNetworkConnectionStateMonitor != null) {
             init();
             setRecommendDietListResponse();
 
-            addItemButton.setOnClickListener(new View.OnClickListener() {
+            mAddItemButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG,"< clicked addItemButton >");
-                    if (pageNo >= 1) {
-                        pageNo += 1;
+                    if (mPageNo >= 1) {
+                        mPageNo += 1;
                     }
                     //TODO: Do process non-exist page when user click add diet button
                     setRecommendDietListResponse();
@@ -97,18 +99,21 @@ public class DietListActivity extends AppCompatActivity {
 
     private void init() {
 
-        dietSeCode = PreferenceManager.getString(mContext, "dietSeCode");
-        mainCategoryName = PreferenceManager.getString(mContext, "mainCategoryName");
+        mDietSeCode = PreferenceManager.getString(mContext, "dietSeCode");
+        mMainCategoryName = PreferenceManager.getString(mContext, "mainCategoryName");
 
-        dataManager = new DataManager();
+        mProgressBar = findViewById(R.id.progress_bar);
+
+        mDataManager = new DataManager();
         RecyclerView recyclerView = findViewById(R.id.diet_list_category_recycler_view);
-        addItemButton = findViewById(R.id.add_diet_button);
+        mAddItemButton = findViewById(R.id.add_diet_button);
 
-        adapter = new DietListAdapter();
-        recyclerView.setAdapter(adapter);
+        mAdapter = new DietListAdapter();
+        recyclerView.setAdapter(mAdapter);
     }
 
     private void setRecommendDietListResponse() {
+        showProgressBar();
         // Get Api response
         new Thread(new Runnable() {
             @Override
@@ -117,22 +122,24 @@ public class DietListActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = currentItemSize; i < dataManager.getDietListResponses().size(); i++) {
-                            adapter.addItem(dataManager.getDietListResponses().get(i), mainCategoryName);
-                            adapter.notifyDataSetChanged();
-                            currentItemSize = dataManager.getDietListResponses().size();
+                        for (int i = mCurrentItemSize; i < mDataManager.getDietListResponses().size(); i++) {
+                            hideProgressBar();
+
+                            mAdapter.addItem(mDataManager.getDietListResponses().get(i), mMainCategoryName);
+                            mAdapter.notifyDataSetChanged();
+                            mCurrentItemSize = mDataManager.getDietListResponses().size();
                         }
                     }
                 });
             }
         }).start();
 
-        adapter.setOnItemClickListener(new OnDietClickListener() {
+        mAdapter.setOnItemClickListener(new OnDietClickListener() {
             @Override
             public void onDietItemClick(DietListAdapter.ViewHolder holder, View view, int position) {
                 Intent intent = new Intent(DietListActivity.this, FoodListActivity.class);
-                PreferenceManager.setString(mContext, CONTENTS_NO_KEY, String.valueOf(dataManager.getDietListResponses().get(position).getCntntsNo()));
-                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, mainCategoryName);
+                PreferenceManager.setString(mContext, CONTENTS_NO_KEY, String.valueOf(mDataManager.getDietListResponses().get(position).getCntntsNo()));
+                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, mMainCategoryName);
                 startActivity(intent);
             }
         });
@@ -141,7 +148,7 @@ public class DietListActivity extends AppCompatActivity {
     private void getRecommendDietListResponse() {
         String apiKey = getString(R.string.recommended_food_recipe_api_key);
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/recomendDietList?apiKey=" + apiKey
-                + "&dietSeCode=" + dietSeCode + "&pageNo=" + pageNo;
+                + "&dietSeCode=" + mDietSeCode + "&pageNo=" + mPageNo;
 
         try {
             URL url = new URL(apiUrl);
@@ -162,16 +169,16 @@ public class DietListActivity extends AppCompatActivity {
                     startTag = xpp.getName();
                     if (startTag.equals(ITEM)) {
                         isItemType = true;
-                        dataManager.getDietListResponses().add(new DietListResponse());
+                        mDataManager.getDietListResponses().add(new DietListResponse());
                     }
                 } else if (eventType == XmlPullParser.TEXT) {
                     if (isItemType) {
                         switch (startTag) {
                             case CONTENTS_NO:
-                                dataManager.getLastDietListData().setCntntsNo(Integer.parseInt(xpp.getText()));
+                                mDataManager.getLastDietListData().setCntntsNo(Integer.parseInt(xpp.getText()));
                                 break;
                             case DIET_NAME:
-                                dataManager.getLastDietListData().setDietNm(xpp.getText());
+                                mDataManager.getLastDietListData().setDietNm(xpp.getText());
                                 break;
                             case FOOD_NAME:
 
@@ -192,7 +199,7 @@ public class DietListActivity extends AppCompatActivity {
                             case SAVE_FILE_NAME:
 
                             case IMAGE_DESCRIPTION:
-                                dataManager.getLastDietListData().setRtnImageDc(xpp.getText());
+                                mDataManager.getLastDietListData().setRtnImageDc(xpp.getText());
                                 break;
                             case THUMBNAIL_FILE_NAME:
 
@@ -212,16 +219,25 @@ public class DietListActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < dataManager.getDietListResponses().size(); i++) {
-            Log.d(TAG, String.valueOf(dataManager.getDietListResponses().get(i).getCntntsNo()));
-            Log.d(TAG, String.valueOf(dataManager.getDietListResponses().get(i).getDietNm()));
+        for (int i = 0; i < mDataManager.getDietListResponses().size(); i++) {
+            Log.d(TAG, String.valueOf(mDataManager.getDietListResponses().get(i).getCntntsNo()));
+            Log.d(TAG, String.valueOf(mDataManager.getDietListResponses().get(i).getDietNm()));
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        networkConnectionStateMonitor.unRegister();
+        mNetworkConnectionStateMonitor.unRegister();
     }
 
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
 }

@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHolder> {
 
-    private ArrayList<FoodRecipeDetail> response = new ArrayList<>();
-    private String mainCategoryName;
+    private ArrayList<FoodRecipeDetail> mResponse = new ArrayList<>();
+    private String mMainCategoryName;
 
     public interface OnFoodItemClickListener {
         void onFoodItemClick(View view, int position);
@@ -42,17 +42,17 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull FoodListAdapter.ViewHolder holder, int position) {
-        holder.onBindFoodListInformation(response.get(position));
+        holder.onBindFoodListInformation(mResponse.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return response.size();
+        return mResponse.size();
     }
 
     public void addItem(FoodRecipeDetail data, String mainCategoryName) {
-        this.mainCategoryName = mainCategoryName;
-        response.add(data);
+        this.mMainCategoryName = mainCategoryName;
+        mResponse.add(data);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -89,7 +89,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
             } else {
                 foodImageView.setImageResource(R.drawable.img_none);
             }
-            mainCategoryNameTextView.setText(mainCategoryName);
+            mainCategoryNameTextView.setText(mMainCategoryName);
             foodNameTextView.setText(data.getFdNm());
         }
     }
