@@ -60,7 +60,6 @@ public class DietListAdapter extends RecyclerView.Adapter<DietListAdapter.ViewHo
     //ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView mainCategoryNameTextView;
         TextView dietNameTextView;
         RelativeLayout button;
 
@@ -68,7 +67,6 @@ public class DietListAdapter extends RecyclerView.Adapter<DietListAdapter.ViewHo
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView_recommend_diet);
-            mainCategoryNameTextView = itemView.findViewById(R.id.main_category_name_text_view);
             dietNameTextView = itemView.findViewById(R.id.tv_recommend_diet_category);
             button = itemView.findViewById(R.id.add_diet_button);
 
@@ -85,7 +83,6 @@ public class DietListAdapter extends RecyclerView.Adapter<DietListAdapter.ViewHo
 
         void onBind(DietListResponse data, String mainCategoryName) {
             Picasso.get().load(data.getRtnImageDc()).into(imageView);
-            mainCategoryNameTextView.setText(mainCategoryName);
             dietNameTextView.setText(data.getDietNm());
         }
     }

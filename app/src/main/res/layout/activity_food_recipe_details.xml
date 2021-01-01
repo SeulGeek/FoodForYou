@@ -21,30 +21,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/main_category_name_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="200dp"
-            android:layout_marginEnd="27dp"
-            android:layout_marginTop="30dp"
-            android:text="카테고리명"
-            android:textSize="12sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/food_image_view"/>
-
-        <TextView
             android:id="@+id/food_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="음식명"
-            android:layout_marginTop="3dp"
             android:layout_marginStart="200dp"
             android:layout_marginEnd="27dp"
+            android:layout_marginTop="30dp"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            app:layout_constraintLeft_toRightOf="@+id/food_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/main_category_name_text_view"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/food_image_view"/>
 
         <!--식품 구성 정보-->
         <include
