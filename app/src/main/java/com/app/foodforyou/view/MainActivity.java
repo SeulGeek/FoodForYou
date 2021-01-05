@@ -16,6 +16,11 @@ import com.app.foodforyou.R;
 import com.app.foodforyou.model.MainCategory;
 import com.app.foodforyou.viewModel.NetworkConnectionStateMonitor;
 import com.app.foodforyou.viewModel.PreferenceManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -45,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout mHomeMealMainCategory;
     private LinearLayout mEventDietMainCategory;
     private LinearLayout mRefreshDietMainCategory;
+    private AdView mAdView;
 
     private ArrayList<String> mDietSeCode;
 
@@ -106,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
         mHomeMealMainCategory = findViewById(R.id.home_meal_main_category_layout);
         mEventDietMainCategory = findViewById(R.id.event_diet_main_category_layout);
         mRefreshDietMainCategory = findViewById(R.id.refresh_diet_main_category_layout);
+        mAdView = findViewById(R.id.adView);
+
+        runAdMob();
     }
 
     private void getMainCategoryTitleResponse() {
@@ -216,6 +225,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mNetworkConnectionStateMonitor.unRegister();
+    }
+
+    private void runAdMob() {
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
 }
