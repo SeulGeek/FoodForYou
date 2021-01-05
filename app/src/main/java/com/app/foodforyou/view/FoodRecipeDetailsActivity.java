@@ -31,7 +31,6 @@ public class FoodRecipeDetailsActivity extends AppCompatActivity {
     private String mLipidInfo;
 
     private ImageView mFoodImageView;
-    private TextView mMainCategoryNameTextView;
     private TextView mFoodNameTextView;
     private TextView mFoodMaterialTextView;
     private TextView mRecipeOrderTextView;
@@ -64,7 +63,6 @@ public class FoodRecipeDetailsActivity extends AppCompatActivity {
 
     private void init() {
         mFoodImageView = findViewById(R.id.food_image_view);
-        mMainCategoryNameTextView = findViewById(R.id.main_category_name_text_view);
         mFoodNameTextView = findViewById(R.id.food_name_text_view);
         mFoodMaterialTextView = findViewById(R.id.food_material_text_view);
         mRecipeOrderTextView = findViewById(R.id.recipe_order_text_view);
@@ -98,7 +96,6 @@ public class FoodRecipeDetailsActivity extends AppCompatActivity {
             mFoodImageView.setImageResource(R.drawable.img_none);
             mFoodImageView.setPadding(0,40,0,0);
         }
-        mMainCategoryNameTextView.setText(mMainCategoryName);
         mFoodNameTextView.setText(mFoodName);
         mFoodMaterialTextView.setText(mFoodMaterial);
         mRecipeOrderTextView.setText(mRecipeOrder);

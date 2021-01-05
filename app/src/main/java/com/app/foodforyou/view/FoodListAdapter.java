@@ -57,7 +57,6 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         LinearLayout foodListLayout;
-        TextView mainCategoryNameTextView;
         ImageView foodImageView;
         TextView foodNameTextView;
 
@@ -66,7 +65,6 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
 
             foodListLayout = itemView.findViewById(R.id.food_list_layout);
             foodImageView = itemView.findViewById(R.id.food_image_view);
-            mainCategoryNameTextView = itemView.findViewById(R.id.main_category_name_text_view);
             foodNameTextView = itemView.findViewById(R.id.food_name_text_view);
 
             foodListLayout.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +87,6 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
             } else {
                 foodImageView.setImageResource(R.drawable.img_none);
             }
-            mainCategoryNameTextView.setText(mMainCategoryName);
             foodNameTextView.setText(data.getFdNm());
         }
     }
