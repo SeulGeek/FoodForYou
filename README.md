@@ -1,6 +1,6 @@
 # FoodForYou
 FoodForYou 앱은 무엇을 먹을지 고민하는 사람들을 위해 식단을 추천하는 앱입니다.
-
+* APP STORE (앱 스토어) : https://play.google.com/store/apps/details?id=com.app.foodforyou
 <!-- 목차 -->
 ## 목차
 * [프로젝트 개요](#프로젝트-개요)
