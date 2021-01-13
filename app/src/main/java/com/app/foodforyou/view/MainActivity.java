@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.app.foodforyou.BuildConfig;
 import com.app.foodforyou.R;
 import com.app.foodforyou.model.MainCategory;
 import com.app.foodforyou.viewModel.NetworkConnectionStateMonitor;
@@ -19,6 +21,7 @@ import com.app.foodforyou.viewModel.PreferenceManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
@@ -29,8 +32,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = MainActivity.class.getCanonicalName();
 
     // API response's tag name
     public static final String ITEM = "item";
@@ -228,6 +234,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void runAdMob() {
+        if (BuildConfig.DEBUG) {
+            // If you would like to test real device, please write your device Id here.
+            List<String> testDeviceIds = Arrays.asList("");
+            RequestConfiguration configuration = new RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build();
+            MobileAds.setRequestConfiguration(configuration);
+        }
+
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -235,6 +248,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         AdRequest adRequest = new AdRequest.Builder().build();
+        boolean isTestDevice = adRequest.isTestDevice(this);
+        Log.v(TAG, "Is Admob test device? : " + isTestDevice); // to confirm it worked
+
         mAdView.loadAd(adRequest);
     }
 
