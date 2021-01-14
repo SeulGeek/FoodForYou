@@ -14,6 +14,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:largeHeap="true">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/food_for_you_app_id" />
         <activity android:name="com.app.foodforyou.view.DietListActivity"
             android:parentActivityName="com.app.foodforyou.view.MainActivity"/>
         <activity android:name="com.app.foodforyou.view.FoodListActivity"
