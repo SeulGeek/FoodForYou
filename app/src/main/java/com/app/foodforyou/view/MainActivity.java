@@ -184,45 +184,35 @@ public class MainActivity extends AppCompatActivity {
         mStudyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(0));
-                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.study_diet_main_category_name));
-                startActivity(mIntent);
+                setMainCategory(0, R.string.study_diet_main_category_name);
             }
         });
 
         mHealthyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(1));
-                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.healthy_diet_main_category_name));
-                startActivity(mIntent);
+                setMainCategory(1, R.string.healthy_diet_main_category_name);
             }
         });
 
         mHomeMealMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(2));
-                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.home_meal_main_category_name));
-                startActivity(mIntent);
+                setMainCategory(2, R.string.home_meal_main_category_name);
             }
         });
 
         mEventDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(3));
-                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.event_diet_main_category_name));
-                startActivity(mIntent);
+                setMainCategory(3, R.string.event_diet_main_category_name);
             }
         });
 
         mRefreshDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(4));
-                PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(R.string.refresh_diet_main_category_name));
-                startActivity(mIntent);
+                setMainCategory(4, R.string.refresh_diet_main_category_name);
             }
         });
     }
@@ -254,4 +244,36 @@ public class MainActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
     }
 
+    private void showUnstableNetworkErrorDialog() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(mContext)
+                .setCancelable(false)
+                .setMessage(R.string.dialog_unstable_network_alert_message)
+                .setPositiveButton(R.string.dialog_positive_button, null)
+                .create();
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                        finish();
+                    }
+                });
+            }
+        });
+        alertDialog.show();
+    }
+
+    private void setMainCategory(int index, int stringId) {
+        if (mDietSeCode.size() > 0) {
+            PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(index));
+            PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(stringId));
+            startActivity(mIntent);
+        } else {
+            showUnstableNetworkErrorDialog();
+        }
+    }
 }
