@@ -14,12 +14,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:largeHeap="true">
-        <activity android:name="com.app.foodforyou.view.RecommendDietListActivity"
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/food_for_you_app_id" />
+        <activity android:name="com.app.foodforyou.view.DietListActivity"
             android:parentActivityName="com.app.foodforyou.view.MainActivity"/>
-        <activity android:name="com.app.foodforyou.view.RecommendDietFoodListActivity"
-            android:parentActivityName="com.app.foodforyou.view.RecommendDietListActivity"/>
-        <activity android:name="com.app.foodforyou.view.FoodRecipeDetails"
-            android:parentActivityName="com.app.foodforyou.view.RecommendDietFoodListActivity"/>
+        <activity android:name="com.app.foodforyou.view.FoodListActivity"
+            android:parentActivityName="com.app.foodforyou.view.DietListActivity"/>
+        <activity android:name="com.app.foodforyou.view.FoodRecipeDetailsActivity"
+            android:parentActivityName="com.app.foodforyou.view.FoodListActivity"/>
         <activity android:name="com.app.foodforyou.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

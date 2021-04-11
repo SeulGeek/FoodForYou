@@ -19,21 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/main_category_name_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="27dp"
-            android:text="@string/main_category"
-            android:textColor="@color/black"
-            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/food_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="13dp"
+            android:layout_marginTop="27dp"
             android:text="차조밥"
             android:textSize="16sp"
             android:textStyle="bold"

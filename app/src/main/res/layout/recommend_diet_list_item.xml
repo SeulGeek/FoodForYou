@@ -17,14 +17,6 @@
             android:contentDescription="@string/recipe_category_image"/>
 
         <TextView
-            android:id="@+id/main_category_name_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/main_category"
-            android:textSize="12sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
-        <TextView
             android:id="@+id/tv_recommend_diet_category"
             android:layout_width="150dp"
             android:layout_height="wrap_content"

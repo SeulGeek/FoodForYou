@@ -11,49 +11,48 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.foodforyou.R;
-import com.app.foodforyou.model.RecommendDietListResponse;
+import com.app.foodforyou.model.DietListResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDietListAdapter.ViewHolder>
+public class DietListAdapter extends RecyclerView.Adapter<DietListAdapter.ViewHolder>
         implements OnDietClickListener{
 
-    private ArrayList<RecommendDietListResponse> response = new ArrayList<>();
-    private String mainCategoryName;
-    private OnDietClickListener listener;
-
+    private ArrayList<DietListResponse> mResponse = new ArrayList<>();
+    private String mMainCategoryName;
+    private OnDietClickListener mListener;
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommend_diet_list_item, parent, false);
-        return new ViewHolder(view, listener) ;
+        return new ViewHolder(view, mListener) ;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.onBind(response.get(position), mainCategoryName);
+        holder.onBind(mResponse.get(position), mMainCategoryName);
     }
 
     @Override
     public int getItemCount() {
-        return response.size();
+        return mResponse.size();
     }
 
-    public void addItem(RecommendDietListResponse data, String mainCategoryName) {
-        this.mainCategoryName = mainCategoryName;
-        response.add(data);
+    public void addItem(DietListResponse data, String mainCategoryName) {
+        this.mMainCategoryName = mainCategoryName;
+        mResponse.add(data);
     }
 
     public void setOnItemClickListener(OnDietClickListener listener) {
-        this.listener = listener;
+        this.mListener = listener;
     }
 
     @Override
     public void onDietItemClick(ViewHolder holder, View view, int position) {
-        if (listener != null) {
-            listener.onDietItemClick(holder, view, position);
+        if (mListener != null) {
+            mListener.onDietItemClick(holder, view, position);
         }
     }
 
@@ -61,7 +60,6 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
     //ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView mainCategoryNameTextView;
         TextView dietNameTextView;
         RelativeLayout button;
 
@@ -69,7 +67,6 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView_recommend_diet);
-            mainCategoryNameTextView = itemView.findViewById(R.id.main_category_name_text_view);
             dietNameTextView = itemView.findViewById(R.id.tv_recommend_diet_category);
             button = itemView.findViewById(R.id.add_diet_button);
 
@@ -84,9 +81,8 @@ public class RecommendDietListAdapter extends RecyclerView.Adapter<RecommendDiet
             });
         }
 
-        void onBind(RecommendDietListResponse data, String mainCategoryName) {
+        void onBind(DietListResponse data, String mainCategoryName) {
             Picasso.get().load(data.getRtnImageDc()).into(imageView);
-            mainCategoryNameTextView.setText(mainCategoryName);
             dietNameTextView.setText(data.getDietNm());
         }
     }
