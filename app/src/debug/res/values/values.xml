@@ -2,4 +2,6 @@
 <resources>
     <!--//TODO: set your api key-->
     <string name="recommended_food_recipe_api_key" translatable="false"></string>
+    <string name="food_for_you_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string> <!--TODO: This is Sample AdMob app ID. You must change it before release-->
+    <string name="food_for_you_app_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string> <!--TODO: This is Sample Ad Unit ID. You must change it before release-->
 </resources>

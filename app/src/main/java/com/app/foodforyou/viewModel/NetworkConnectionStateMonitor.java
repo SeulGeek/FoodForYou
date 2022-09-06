@@ -21,13 +21,13 @@ import com.app.foodforyou.R;
 public class NetworkConnectionStateMonitor extends ConnectivityManager.NetworkCallback {
 
     private Context mContext;
-    private NetworkRequest networkRequest;
+    private NetworkRequest mNetworkRequest;
     private ConnectivityManager mConnectivityManager;
     private boolean isNetworkConnected;
 
     public NetworkConnectionStateMonitor(Context context) {
         this.mContext = context;
-        networkRequest = new NetworkRequest.Builder()
+        mNetworkRequest = new NetworkRequest.Builder()
                 .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
                 .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
                 .build();
@@ -35,7 +35,7 @@ public class NetworkConnectionStateMonitor extends ConnectivityManager.NetworkCa
     }
 
     public void register() {
-        mConnectivityManager.registerNetworkCallback(networkRequest, this);
+        mConnectivityManager.registerNetworkCallback(mNetworkRequest, this);
     }
 
     public void unRegister() {

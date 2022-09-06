@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -12,10 +13,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.app.foodforyou.BuildConfig;
 import com.app.foodforyou.R;
 import com.app.foodforyou.model.MainCategory;
 import com.app.foodforyou.viewModel.NetworkConnectionStateMonitor;
 import com.app.foodforyou.viewModel.PreferenceManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -24,21 +32,35 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = MainActivity.class.getCanonicalName();
+
+    // API response's tag name
+    public static final String ITEM = "item";
+
+    // API response's element
+    public static final String DIET_SEPARATION_CODE = "dietSeCode";
+
+    // SEND RESPONSE VALUE'S KEY
+    public static final String MAIN_CATEGORY_NAME_KEY = "mainCategoryName";
+    public static final String DIET_SEPARATION_CODE_KEY = "dietSeCode";
 
     private Context mContext;
-    private NetworkConnectionStateMonitor networkConnectionStateMonitor;
+    private NetworkConnectionStateMonitor mNetworkConnectionStateMonitor;
 
-    private LinearLayout studyDietMainCategory;
-    private LinearLayout healthyDietMainCategory;
-    private LinearLayout homeMealMainCategory;
-    private LinearLayout eventDietMainCategory;
-    private LinearLayout refreshDietMainCategory;
+    private LinearLayout mStudyDietMainCategory;
+    private LinearLayout mHealthyDietMainCategory;
+    private LinearLayout mHomeMealMainCategory;
+    private LinearLayout mEventDietMainCategory;
+    private LinearLayout mRefreshDietMainCategory;
+    private AdView mAdView;
 
-    private ArrayList<String> dietSeCode;
+    private ArrayList<String> mDietSeCode;
 
-    private Intent intent;
+    private Intent mIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        if (networkConnectionStateMonitor != null) {
+        if (mNetworkConnectionStateMonitor != null) {
             getMainCategoryTitleResponse();
         }
     }
@@ -55,13 +77,13 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         mContext = this;
 
-        if (networkConnectionStateMonitor == null) {
-            networkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
-            networkConnectionStateMonitor.register();
+        if (mNetworkConnectionStateMonitor == null) {
+            mNetworkConnectionStateMonitor = new NetworkConnectionStateMonitor(mContext);
+            mNetworkConnectionStateMonitor.register();
 
 
             //TODO: Add progress dialog (or bar) after first release
-            if (!networkConnectionStateMonitor.isConnected()) {
+            if (!mNetworkConnectionStateMonitor.isConnected()) {
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(mContext)
                         .setCancelable(false)
@@ -76,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                         positiveButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (networkConnectionStateMonitor.isConnected()) {
+                                if (mNetworkConnectionStateMonitor.isConnected()) {
                                     alertDialog.dismiss();
                                     Toast.makeText(mContext, R.string.network_connected_message, Toast.LENGTH_SHORT).show();
                                 } else {
@@ -91,11 +113,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        studyDietMainCategory = findViewById(R.id.study_diet_main_category_layout);
-        healthyDietMainCategory = findViewById(R.id.healthy_diet_main_category_layout);
-        homeMealMainCategory = findViewById(R.id.home_meal_main_category_layout);
-        eventDietMainCategory = findViewById(R.id.event_diet_main_category_layout);
-        refreshDietMainCategory = findViewById(R.id.refresh_diet_main_category_layout);
+        mStudyDietMainCategory = findViewById(R.id.study_diet_main_category_layout);
+        mHealthyDietMainCategory = findViewById(R.id.healthy_diet_main_category_layout);
+        mHomeMealMainCategory = findViewById(R.id.home_meal_main_category_layout);
+        mEventDietMainCategory = findViewById(R.id.event_diet_main_category_layout);
+        mRefreshDietMainCategory = findViewById(R.id.refresh_diet_main_category_layout);
+        mAdView = findViewById(R.id.adView);
+
+        runAdMob();
     }
 
     private void getMainCategoryTitleResponse() {
@@ -107,10 +132,10 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i< dietSeCode.size(); i++) {
+                        for (int i = 0; i< mDietSeCode.size(); i++) {
                             // 각 List의 값들을 MainCategory 객체에 set 해줍니다
                             MainCategory mainCategoryData = new MainCategory();
-                            mainCategoryData.setDietSeCode(dietSeCode.get(i));
+                            mainCategoryData.setDietSeCode(mDietSeCode.get(i));
                         }
                     }
                 });
@@ -121,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getMainCategoryResponse() {
-        dietSeCode = new ArrayList<>();
+        mDietSeCode = new ArrayList<>();
 
         String apiKey = getString(R.string.recommended_food_recipe_api_key);
         String apiUrl = "http://api.nongsaro.go.kr/service/recomendDiet/mainCategoryList?apiKey=" + apiKey;
@@ -138,11 +163,11 @@ public class MainActivity extends AppCompatActivity {
             while(eventType != XmlPullParser.END_DOCUMENT) {
                 switch (eventType) {
                     case XmlPullParser.START_TAG:
-                        if (xpp.getName().equals("item")) { // fist research result
+                        if (xpp.getName().equals(ITEM)) { // fist research result
 
-                        } else if (xpp.getName().equals("dietSeCode")) {
+                        } else if (xpp.getName().equals(DIET_SEPARATION_CODE)) {
                             xpp.next();
-                            dietSeCode.add(xpp.getText());
+                            mDietSeCode.add(xpp.getText());
                         }
                         break;
                 }
@@ -154,50 +179,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onClickCategory() {
-        intent = new Intent(getApplicationContext(), RecommendDietListActivity.class);
+        mIntent = new Intent(this, DietListActivity.class);
 
-        studyDietMainCategory.setOnClickListener(new View.OnClickListener() {
+        mStudyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(0));
-                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.study_diet_main_category_name));
-                startActivity(intent);
+                setMainCategory(0, R.string.study_diet_main_category_name);
             }
         });
 
-        healthyDietMainCategory.setOnClickListener(new View.OnClickListener() {
+        mHealthyDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(1));
-                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.healthy_diet_main_category_name));
-                startActivity(intent);
+                setMainCategory(1, R.string.healthy_diet_main_category_name);
             }
         });
 
-        homeMealMainCategory.setOnClickListener(new View.OnClickListener() {
+        mHomeMealMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(2));
-                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.home_meal_main_category_name));
-                startActivity(intent);
+                setMainCategory(2, R.string.home_meal_main_category_name);
             }
         });
 
-        eventDietMainCategory.setOnClickListener(new View.OnClickListener() {
+        mEventDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(3));
-                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.event_diet_main_category_name));
-                startActivity(intent);
+                setMainCategory(3, R.string.event_diet_main_category_name);
             }
         });
 
-        refreshDietMainCategory.setOnClickListener(new View.OnClickListener() {
+        mRefreshDietMainCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(mContext, "dietSeCode", dietSeCode.get(4));
-                PreferenceManager.setString(mContext, "mainCategoryName", getString(R.string.refresh_diet_main_category_name));
-                startActivity(intent);
+                setMainCategory(4, R.string.refresh_diet_main_category_name);
             }
         });
     }
@@ -205,7 +220,60 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        networkConnectionStateMonitor.unRegister();
+        mNetworkConnectionStateMonitor.unRegister();
     }
 
+    private void runAdMob() {
+        if (BuildConfig.DEBUG) {
+            // If you would like to test real device, please write your device Id here.
+            List<String> testDeviceIds = Arrays.asList("");
+            RequestConfiguration configuration = new RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build();
+            MobileAds.setRequestConfiguration(configuration);
+        }
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        boolean isTestDevice = adRequest.isTestDevice(this);
+        Log.v(TAG, "Is Admob test device? : " + isTestDevice); // to confirm it worked
+
+        mAdView.loadAd(adRequest);
+    }
+
+    private void showUnstableNetworkErrorDialog() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(mContext)
+                .setCancelable(false)
+                .setMessage(R.string.dialog_unstable_network_alert_message)
+                .setPositiveButton(R.string.dialog_positive_button, null)
+                .create();
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                        finish();
+                    }
+                });
+            }
+        });
+        alertDialog.show();
+    }
+
+    private void setMainCategory(int index, int stringId) {
+        if (mDietSeCode.size() > 0) {
+            PreferenceManager.setString(mContext, DIET_SEPARATION_CODE_KEY, mDietSeCode.get(index));
+            PreferenceManager.setString(mContext, MAIN_CATEGORY_NAME_KEY, getString(stringId));
+            startActivity(mIntent);
+        } else {
+            showUnstableNetworkErrorDialog();
+        }
+    }
 }

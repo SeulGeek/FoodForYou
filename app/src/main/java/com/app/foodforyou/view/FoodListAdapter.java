@@ -12,16 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.foodforyou.R;
-import com.app.foodforyou.model.RecommendDietDetail;
+import com.app.foodforyou.model.FoodRecipeDetail;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<RecommendDietFoodListAdapter.ViewHolder> {
+public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHolder> {
 
-    private ArrayList<RecommendDietDetail> response = new ArrayList<>();
-    private String mainCategoryName;
+    private ArrayList<FoodRecipeDetail> mResponse = new ArrayList<>();
+    private String mMainCategoryName;
 
     public interface OnFoodItemClickListener {
         void onFoodItemClick(View view, int position);
@@ -35,29 +35,28 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
 
     @NonNull
     @Override
-    public RecommendDietFoodListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FoodListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommend_diet_food_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecommendDietFoodListAdapter.ViewHolder holder, int position) {
-        holder.onBind(response.get(position));
+    public void onBindViewHolder(@NonNull FoodListAdapter.ViewHolder holder, int position) {
+        holder.onBindFoodListInformation(mResponse.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return response.size();
+        return mResponse.size();
     }
 
-    public void addItem(RecommendDietDetail data, String mainCategoryName) {
-        this.mainCategoryName = mainCategoryName;
-        response.add(data);
+    public void addItem(FoodRecipeDetail data, String mainCategoryName) {
+        this.mMainCategoryName = mainCategoryName;
+        mResponse.add(data);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         LinearLayout foodListLayout;
-        TextView mainCategoryNameTextView;
         ImageView foodImageView;
         TextView foodNameTextView;
 
@@ -66,7 +65,6 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
 
             foodListLayout = itemView.findViewById(R.id.food_list_layout);
             foodImageView = itemView.findViewById(R.id.food_image_view);
-            mainCategoryNameTextView = itemView.findViewById(R.id.main_category_name_text_view);
             foodNameTextView = itemView.findViewById(R.id.food_name_text_view);
 
             foodListLayout.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +78,7 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
             });
         }
 
-        void onBind(RecommendDietDetail data) {
+        void onBindFoodListInformation(FoodRecipeDetail data) {
             if (!TextUtils.isEmpty(data.getRtnImageDc())) {
                 Picasso.get()
                         .load(data.getRtnImageDc())
@@ -89,7 +87,6 @@ public class RecommendDietFoodListAdapter extends RecyclerView.Adapter<Recommend
             } else {
                 foodImageView.setImageResource(R.drawable.img_none);
             }
-            mainCategoryNameTextView.setText(mainCategoryName);
             foodNameTextView.setText(data.getFdNm());
         }
     }
